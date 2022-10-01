@@ -94,8 +94,8 @@ exports.recuperarClave = async (req, res, next) => {
             let transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
-                user:'sistemassgestion@gmail.com',
-                pass:'everLAST2022'
+                user:'remate.online.ctes@gmail.com',
+                pass:'remates123'
                 }
             });
 
@@ -107,7 +107,7 @@ exports.recuperarClave = async (req, res, next) => {
             let mailOptions = {
               from: 'Remates online',
               to: email,
-              bcc: 'licagua@gmail.com',
+              bcc: 'remate.online.ctes@gmail.com',
               subject: 'Remates online - Recuperación de Contraseña',
               html: cuerpoemail
             };
