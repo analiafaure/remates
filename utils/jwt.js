@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 // genera el jwt creado una promesa
 // const generarJWT = (correo, tipoUsuario, nombre, apellido) => {
 const generarJWT = (correo, tipoUsuario, idUsuario) => {
-    // const payload = {correo, tipoUsuario, nombre, apellido};
     const payload = {correo, tipoUsuario, idUsuario};
     // jwt.sign no trabaja con promesas, por este motivo creo el new promise
     return new Promise ((resolve, reject) => {

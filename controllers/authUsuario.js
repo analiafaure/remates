@@ -1,13 +1,11 @@
 const bcrypt = require('bcryptjs');
-const db = require("../models");
-const Usuario = db.usuario;
-const { generarJWT } = require('../utilidades/jwt');
+const Usuario = require('../models').Usuario;
+const { generarJWT } = require('../utils/jwt');
 const nodemailer = require('nodemailer');
 
 // login de usuario
 exports.login = async (req, res, next) => {
   try{
-    console.log(req.body.email);
     // busco el usuario con el email recibido
     const usuarioDb = await Usuario.findOne({ where : {email : req.body.email }});
     
@@ -15,38 +13,28 @@ exports.login = async (req, res, next) => {
     if(usuarioDb){
       
       // comparo las claves recibidas y almacenadas
-      // const clave_ok = await bcrypt.compare(req.body.clave, usuarioDb.clave);
       const clave_ok = bcrypt.compareSync(req.body.clave, usuarioDb.clave);
 
       if(clave_ok){
         // genero el token
-        const token = await generarJWT(req.body.email, usuarioDb.tipoUsuario, usuarioDb.id);
-
-        // actualizo el registro de ultimo login del usuario ;)
-        /*Usuario.update({ultimoLogin : new Date()},  {where: { id: usuarioDb.id }}
-        )
-        .then(num => {
-          if (num == 1) {
-            res.status(200).json({ 
-              ok:true,
-              nombre: usuarioDb.nombre,
-              apellido: usuarioDb.apellido,
-              tipoUsuario: usuarioDb.tipoUsuario,
-              email: usuarioDb.email,
-              token : token 
-            });
-          } else {
-            res.send({
-              ok:false,
-              msg: `No se pudo modificar el ultimoLogin del usuario id=${usuarioDb.id}. Maybe Usuario was not found or req.body is empty!`
-            });
-          }
+        await generarJWT(req.body.email, usuarioDb.tipoUsuario, usuarioDb.id).then(data =>
+          {
+          console.log(data);
+          res.status(200).json({ 
+            ok:true,
+            nombre: usuarioDb.nombre,
+            apellido: usuarioDb.apellido,
+            tipoUsuario: usuarioDb.tipoUsuario,
+            email: usuarioDb.email,
+            token : data
         })
-        .catch(err => {
-            res.status(500).send({
-            msg: "Error modificando el usuario id=" + usuarioDb.id
-          });
-        });*/
+        }).catch(err =>{
+          return res.status(500).json({
+            ok: false,
+            msg:'Error al generar token'
+        })
+      });
+
       } else {
         res.status(400).json({ 
           ok: false,
@@ -94,8 +82,8 @@ exports.recuperarClave = async (req, res, next) => {
             let transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
-                user:'sistemassgestion@gmail.com',
-                pass:'everLAST2022'
+                user:'remate.online.ctes@gmail.com',
+                pass:'remates123'
                 }
             });
 
@@ -107,7 +95,7 @@ exports.recuperarClave = async (req, res, next) => {
             let mailOptions = {
               from: 'Remates online',
               to: email,
-              bcc: 'licagua@gmail.com',
+              bcc: 'remate.online.ctes@gmail.com',
               subject: 'Remates online - Recuperación de Contraseña',
               html: cuerpoemail
             };
