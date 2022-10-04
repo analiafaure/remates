@@ -1,7 +1,7 @@
-module.exports = app => {
-    const auth = require('../controllers/authUsuariojs');
+
+    const auth = require('../controllers/authUsuario');
     var router = require('express').Router();
-    const { validarJWT } = require('../utilidades/validar-jwt');
+    const { validarJWT } = require('../utils/validar-jwt');
 
 
     // login 
@@ -14,5 +14,4 @@ module.exports = app => {
     // antes de ir a la ruta valida el token con el middleware validarJWT, en caso de ser valido sigue.. sino error
     router.get('/revalidarToken', validarJWT, auth.revalidarToken);
 
-    app.use('/api/auth', router);
-};
+module.exports = router;

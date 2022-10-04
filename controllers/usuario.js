@@ -16,16 +16,11 @@ console.log(req.body)
     }).then(data =>{
         console.log(data);
         let transporter = nodemailer.createTransport({
-            service: 'smtp.gmail.com',
-	        port: 465,
-	        secure:true,
+            service: 'gmail',
 			auth: {
                 user:'analia.f93@gmail.com',
                 pass:'22demayo'
-                },
-            tls: {
-                rejectUnauthorized: false
-            }
+                }
             });
         
             let cuerpoCorreo = "<h1>Hola " + nombre + " </h1>"+
