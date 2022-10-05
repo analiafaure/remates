@@ -46,7 +46,7 @@ console.log(req.body)
               } else {
                 res.status(200).json({
                   ok: true,
-                  msg: 'Usuario creado ok! Revise su correo para completar el registro.',
+                  msg: 'Usuario creado ok! Revise su correo para completar el registroooooo .',
                   data: data
                 });
               }
