@@ -4,8 +4,7 @@ const nodemailer = require('nodemailer')
 
 exports.altaUsuario = async(req, res)=>{
     const { nombre, apellido, email, clave, tipoUsuario } = req.body
-console.log(req.body)
-   Usuario.create({
+    Usuario.create({
         nombre,
         apellido,
         email,
@@ -14,12 +13,11 @@ console.log(req.body)
         activo: true,
         primerLogin: true
     }).then(data =>{
-        console.log(data);
         let transporter = nodemailer.createTransport({
-            service: 'gmail',
+            service:'gmail',
 			auth: {
-                user:'analia.f93@gmail.com',
-                pass:'22demayo'
+                user:'remate.online.ctes@gmail.com',
+                pass: process.env.PASSWORD
                 }
             });
         
@@ -31,7 +29,7 @@ console.log(req.body)
             let mailOptions = {
                 from: 'Remates online',
                 to: email,
-                bcc: 'analia.f93@gmail.com',
+                bcc: 'remate.online.ctes@gmail.com',
                 subject: 'Remates online - Nuevo Usuario',
                 html: cuerpoCorreo
             };
