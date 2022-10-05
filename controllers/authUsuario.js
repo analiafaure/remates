@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer');
 exports.login = async (req, res, next) => {
   try{
     // busco el usuario con el email recibido
+    console.log(req.body);
     const usuarioDb = await Usuario.findOne({ where : {email : req.body.email }});
     
     // si el usuario existe
@@ -149,9 +150,12 @@ exports.recuperarClave = async (req, res, next) => {
 exports.revalidarToken = async (req, res, next) => {
   //llego acá porque valido el jwt que llego en el header de la consulta
   const {email, tipoUsuario} = req;
+
+
   return res.status(200).json({
       ok: true,
       email: email,
       tipoUsuario: tipoUsuario
   })   
+
 }

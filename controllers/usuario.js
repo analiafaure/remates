@@ -18,8 +18,8 @@ console.log(req.body)
         let transporter = nodemailer.createTransport({
             service: 'gmail',
 			auth: {
-                user:'analia.f93@gmail.com',
-                pass:'22demayo'
+                user:process.env.CORREO,
+                pass:process.env.CLAVE
                 }
             });
         
@@ -46,7 +46,7 @@ console.log(req.body)
               } else {
                 res.status(200).json({
                   ok: true,
-                  msg: 'Usuario creado ok! Datos enviados por correo electrónico al usuario.',
+                  msg: 'Usuario creado ok! Revise su correo para completar el registro.',
                   data: data
                 });
               }
