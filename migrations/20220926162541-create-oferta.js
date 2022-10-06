@@ -16,7 +16,8 @@ module.exports = {
         }
       },
       idLote: {
-        type: Sequelize.INTEGER,references:{
+        type: Sequelize.INTEGER,
+        references:{
           model: 'Lote',
           key: 'id'
         }

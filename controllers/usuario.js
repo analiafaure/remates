@@ -16,8 +16,8 @@ exports.altaUsuario = async(req, res)=>{
         let transporter = nodemailer.createTransport({
             service:'gmail',
 			auth: {
-                user:'remate.online.ctes@gmail.com',
-                pass: process.env.PASSWORD
+                user:process.env.CORREO,
+                pass:process.env.CLAVE
                 }
             });
         
@@ -44,7 +44,7 @@ exports.altaUsuario = async(req, res)=>{
               } else {
                 res.status(200).json({
                   ok: true,
-                  msg: 'Usuario creado ok! Datos enviados por correo electrónico al usuario.',
+                  msg: 'Usuario creado ok! Revise su correo para completar el registroooooo .',
                   data: data
                 });
               }

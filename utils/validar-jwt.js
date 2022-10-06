@@ -2,7 +2,6 @@ const { response } = require("express")
 const jwt = require('jsonwebtoken');
 
 const validarJWT = (req, res = response, next) => {
-
     // leo el token que viene por el header, 
     // es un header personalizado, mas complejo pero no infalible...
     const token = req.header('x-token');
@@ -17,7 +16,6 @@ const validarJWT = (req, res = response, next) => {
 
     try{
         const {correo, tipoUsuario, idUsuario} = jwt.verify(token, process.env.SECRET_JWT_SEED);
-        // console.log(correo, tipoUsuario);
         req.correo = correo;
         req.tipoUsuario = tipoUsuario;
         req.idUsuario = idUsuario;
