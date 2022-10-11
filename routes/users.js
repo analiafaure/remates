@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const ctlUsuario = require('../controllers/usuario.js');
+const { validarJWT } = require('../utils/validar-jwt');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -8,6 +9,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/altaUsuario',ctlUsuario.altaUsuario);
-router.get('/listarUsuarios',ctlUsuario.listarUsuarios);
+router.get('/listarUsuarios',validarJWT, ctlUsuario.listarUsuarios);
+router.put('/modificarUsuario/:id', validarJWT, ctlUsuario.modificarUsuario);
+router.get('/getUsuarioId/:id', validarJWT, ctlUsuario.getUsuarioId);
 
 module.exports = router;

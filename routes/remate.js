@@ -8,5 +8,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/altaRemate',ctlRemate.altaRemate);
+router.get('/listarRemates',ctlRemate.listarRemates);
 
 module.exports = router;

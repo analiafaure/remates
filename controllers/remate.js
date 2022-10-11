@@ -22,5 +22,15 @@ console.log(req.body)
             msg: 'Error no se pudo registrar el Remate'
         })
     })
-
+}
+    exports.listarRemates = async(req,res)=>{
+        Remate.findAll().then(data => {
+            res.send(data)
+        }).catch(err => {
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg:'Error no se pudo mostrar los remates'
+            })
+        })
 }
