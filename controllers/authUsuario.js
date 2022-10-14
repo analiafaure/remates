@@ -79,7 +79,7 @@ exports.recuperarClave = async (req, res, next) => {
         // console.log('nueva clave: ', aux);
         
         // actualizo el registro de clave del usuario ;)
-        Usuario.update({clave : claveHash},  {where: { id: usuarioDb.id }})
+        Usuario.update({clave : claveHash, reinicioClave: true},  {where: { id: usuarioDb.id }})
         .then(num => {
           if (num == 1) {
             let transporter = nodemailer.createTransport({

@@ -1,11 +1,19 @@
 const Usuario = require('../models').Usuario
 const bcrypt  = require('bcryptjs')
 const nodemailer = require('nodemailer')
+const helpers = require('../config/helpers')
 
 exports.altaUsuario = async(req, res)=>{
-    const { nombre, apellido, email, clave, tipoUsuario,dni } = req.body
+    let { nombre, apellido, email, clave, tipoUsuario, dni } = req.body
+    let cuerpoCorreo
+
     if(!clave){
-        clave= dni
+        clave = dni
+        cuerpoCorreo = `<h1>Hola ${nombre}  </h1>
+        <p>Ya podes ingresar al sistema de remates online.</p>
+        <p>Tu usuario es ${email} </p>
+        <p>Tu clave es ${dni}. Recomendamos modificar su clave </p>
+        <p>Hace clic en el siguiente enlace:  http://${process.env.IP}/#/auth/login</p>`;
     }
     Usuario.create({
         nombre,
@@ -15,7 +23,8 @@ exports.altaUsuario = async(req, res)=>{
         clave: bcrypt.hashSync(clave, bcrypt.genSaltSync()),
         tipoUsuario,
         activo: true,
-        primerLogin: true
+        primerLogin: true,
+        reinicioClave: false
     }).then(data =>{
         let transporter = nodemailer.createTransport({
             service:'gmail',
@@ -25,10 +34,10 @@ exports.altaUsuario = async(req, res)=>{
                 }
             });
         
-            let cuerpoCorreo = `<h1>Hola  ${nombre}  </h1>
-                                <p>Ya podes ingresar al sistema de remates online.</p>
-                                <p>Hace clic en el siguiente enlace:  http://${process.env.IP}/#/auth/login </p>
-                                <p><h4>Recomendamos modificar la clave al ingresar al sistema. </h4></p>`;
+            cuerpoCorreo = `<h1>Hola  ${nombre}  </h1>
+                            <p>Ya podes ingresar al sistema de remates online.</p>
+                            <p>Tu usuario es ${email} </p>
+                            <p>Hace clic en el siguiente enlace:  http://${process.env.IP}/#/auth/login</p>`;
         
             let mailOptions = {
                 from: 'Remates online',
@@ -64,20 +73,51 @@ exports.altaUsuario = async(req, res)=>{
 }
 
 exports.listarUsuarios = async(req,res)=>{
-    Usuario.findAll().then(data => {
-        res.send(data)
-    }).catch(err => {
-        res.status(404).json({
-            error:err,
-            ok:false,
-            msg:'Error no se pudo mostrar los usuarios'
+     if (req.params.activo == '2' ){
+        await Usuario.findAll().then(data => {
+            res.send(data)
+        }).catch(err => {
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg:'Error no se pudo mostrar los usuarios'
+            })
         })
-    })
+    }
+    else{
+        await Usuario.findAll({
+            where:{ activo: req.params.activo}
+        }).then(data => {
+            res.send(data)
+        }).catch(err => {
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg:'Error no se pudo mostrar los usuarios'
+            })
+        })
+    }
+    
 }
 
 exports.modificarUsuario = async(req,res)=>{
     const { id }= req.params;
-
+    if (req.body.clave && req.body.claveActual){
+        let user = await Usuario.findOne({
+            where: { id: id }
+        })
+        let validPass = await helpers.marchPassword(req.body.claveActual, user.clave);
+        if (validPass){
+            req.body.clave = bcrypt.hashSync(req.body.clave, bcrypt.genSaltSync())
+        }
+        else{
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg:'La clave ingresada no corresponde a ese usuario'
+            })
+        }
+    }
    await Usuario.update(
     req.body,
     {
@@ -100,7 +140,7 @@ exports.modificarUsuario = async(req,res)=>{
 
 exports.getUsuarioId = async(req,res)=>{
     const id = req.params.id
-    
+
     await Usuario.findOne({
         where: { id: id }
     }).then(data => {

@@ -38,6 +38,9 @@ module.exports = {
       primerLogin: {
         type: Sequelize.BOOLEAN
       },
+      aceptoBases: {
+        type: Sequelize.DATE
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

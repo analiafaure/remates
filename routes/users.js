@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/altaUsuario',ctlUsuario.altaUsuario);
-router.get('/listarUsuarios',validarJWT, ctlUsuario.listarUsuarios);
+router.get('/listarUsuarios/:activo',validarJWT, ctlUsuario.listarUsuarios);
 router.put('/modificarUsuario/:id', validarJWT, ctlUsuario.modificarUsuario);
 router.get('/getUsuarioId/:id', validarJWT, ctlUsuario.getUsuarioId);
 
