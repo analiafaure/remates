@@ -138,11 +138,20 @@ exports.modificarUsuario = async(req,res)=>{
             data: data
        })
     }).catch(err =>{
+        if(err.name === "SequelizeUniqueConstraintError"){
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg: 'Error- el dni o correo electronico ya han sido registrados'
+            })
+        }
+       else{
         res.status(404).json({
             error:err,
             ok:false,
-            msg:'Error al modificar el usuario'
-        })  
+            msg: 'Error al modificar el usuario'
+        })
+    }
     })
 }
 
