@@ -66,7 +66,7 @@ exports.altaUsuario = async(req, res)=>{
                 res.status(404).json({
                     error:err,
                     ok:false,
-                    msg: 'El email deben ser unico'
+                    msg: 'El correo electronico ya ha sido registrado'
                 })
             }
            else{
