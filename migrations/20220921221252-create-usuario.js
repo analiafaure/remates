@@ -15,9 +15,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       dni: {
+        unique: true,
         type: Sequelize.STRING
       },
       email: {
+        unique: true,
         type: Sequelize.STRING
       },
       clave: {

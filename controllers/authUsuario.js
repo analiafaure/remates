@@ -76,8 +76,7 @@ exports.recuperarClave = async (req, res, next) => {
         // hasheo la passwd
         const salt = bcrypt.genSaltSync();
         claveHash = bcrypt.hashSync(aux, salt);
-        // console.log('nueva clave: ', aux);
-        
+        console.log('clave:'+ aux);
         // actualizo el registro de clave del usuario ;)
         Usuario.update({clave : claveHash, reinicioClave: true},  {where: { id: usuarioDb.id }})
         .then(num => {

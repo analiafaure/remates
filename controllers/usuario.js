@@ -5,7 +5,11 @@ const helpers = require('../config/helpers')
 
 exports.altaUsuario = async(req, res)=>{
     let { nombre, apellido, email, clave, tipoUsuario, dni } = req.body
-    let cuerpoCorreo
+    let cuerpoCorreo = `<h1>Hola  ${nombre}  </h1>
+    <p>Ya podes ingresar al sistema de remates online.</p>
+    <p>Tu usuario es ${email} </p>
+    <p>Hace clic en el siguiente enlace:  http://${process.env.IP}/#/auth/login</p>`;
+
 
     if(!clave){
         clave = dni
@@ -34,11 +38,6 @@ exports.altaUsuario = async(req, res)=>{
                 }
             });
         
-            cuerpoCorreo = `<h1>Hola  ${nombre}  </h1>
-                            <p>Ya podes ingresar al sistema de remates online.</p>
-                            <p>Tu usuario es ${email} </p>
-                            <p>Hace clic en el siguiente enlace:  http://${process.env.IP}/#/auth/login</p>`;
-        
             let mailOptions = {
                 from: 'Remates online',
                 to: email,
@@ -63,11 +62,20 @@ exports.altaUsuario = async(req, res)=>{
               }
             })
           }).catch(err =>{
+            if(err.name === "SequelizeUniqueConstraintError"){
+                res.status(404).json({
+                    error:err,
+                    ok:false,
+                    msg: 'El email deben ser unico'
+                })
+            }
+           else{
             res.status(404).json({
                 error:err,
                 ok:false,
-                msg: 'Error no se pudo registrar el usuario'
+                msg: 'Error al registrar el usuario'
             })
+           }
     })
 
 }
