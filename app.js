@@ -1,9 +1,14 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+const fs = require('fs');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
+const https = require('https');
+const cors = require('cors');
+const helmet = require('helmet');
+var compression = require('compression');
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
@@ -12,7 +17,15 @@ var remateRouter = require('./routes/remate');
 var authRouter = require('./routes/authUsuario');
 
 var app = express();
+app.use(helmet({contentSecurityPolicy: false}));  // Ayuda a proteger aplicaciones Express
+app.use(compression());
+app.use(cors());
 
+
+const httpsServerOptions = {
+  key: fs.readFileSync(process.env.KEY_PATH),
+  cert: fs.readFileSync(process.env.CERT_PATH),
+};
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,5 +60,14 @@ app.use(function(err, req, res, next) {
 
 const serverHttp= http.createServer(app);
 serverHttp.listen(process.env.HTTP_PORT, process.env.IP);
-serverHttp.on('listening',()=>console.info( `Notes app running at http://${process.env.IP}:${process.env.HTTP_PORT} `)); 
+
+// Servidor HTTPS
+const serverHttps = https.createServer(httpsServerOptions, app);
+serverHttps.listen(process.env.HTTPS_PORT, process.env.IP);
+serverHttp.on('listening',()=>console.info( `Notes app running at https://${process.env.IP}:${process.env.HTTP_PORT} `)); 
+
+app.use((req, res, next) => {
+  if (req.secure) next(); else res.redirect(`https://${req.headers.host}${req.url}`);
+});
+
 module.exports = app;
