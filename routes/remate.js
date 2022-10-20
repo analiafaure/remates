@@ -11,6 +11,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/altaRemate',validarJWT, ctlRemate.altaRemate);
 router.get('/listarRemates',validarJWT, ctlRemate.listarRemates);
-router.get('/remateVigente', validarJWT, ctlRemate.remateVigente);
+router.get('/remateVigente',validarJWT,  ctlRemate.remateVigente);
+router.get('/remateProximo',validarJWT, ctlRemate.remateProximo);
 
 module.exports = router;

@@ -1,6 +1,8 @@
 const Remate = require('../models').Remate
 const moment = require('moment')
-
+const date = new Date()
+const dateFormat =moment(date,"YYYY/MM/DD HH:mm")
+    
 exports.altaRemate = async(req, res)=>{
     const { descripcion, fechaInicio, fechaFin, costoPuja, incrementoPuja,topePuja } = req.body
     
@@ -38,9 +40,7 @@ exports.listarRemates = async(req,res)=>{
 }
 
 exports.remateVigente = async(req,res)=>{
-    const date = new Date()
     let rematesVigentes=[]
-    const dateFormat =moment(date,"YYYY/MM/DD HH:mm")
     
     Remate.findAll({
         where: Remate.activo = true
@@ -51,6 +51,25 @@ exports.remateVigente = async(req,res)=>{
             }
         })
         res.send(rematesVigentes)
+    }).catch(err => {
+        res.status(404).json({
+            error:err,
+            ok:false,
+            msg:'Error no se pudo mostrar los remates'
+        })
+    })
+}
+
+exports.remateProximo = async (req, res) =>{
+    
+    Remate.findAll({
+        where: Remate.activo = true
+    }).then(data => {
+        data.forEach(element => {
+            if (element.fechaInicio > dateFormat){
+                res.send(element)      
+            }
+        })
     }).catch(err => {
         res.status(404).json({
             error:err,
