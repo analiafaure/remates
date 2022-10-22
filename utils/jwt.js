@@ -9,7 +9,7 @@ const generarJWT = (correo, tipoUsuario, idUsuario) => {
     // jwt.sign no trabaja con promesas, por este motivo creo el new promise
     return new Promise ((resolve, reject) => {
         jwt.sign(payload, process.env.SECRET_JWT_SEED, {
-            expiresIn: '5m'
+            expiresIn: '30m'
         }, (err, token) => {
             if (err) {
                 // todo mal, ejecuta el reject del promise

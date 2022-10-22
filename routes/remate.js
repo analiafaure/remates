@@ -10,8 +10,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/altaRemate',validarJWT, ctlRemate.altaRemate);
-router.get('/listarRemates',validarJWT, ctlRemate.listarRemates);
+router.get('/listarRemates/:activo',validarJWT, ctlRemate.listarRemates);
 router.get('/remateVigente',validarJWT,  ctlRemate.remateVigente);
 router.get('/remateProximo',validarJWT, ctlRemate.remateProximo);
+router.put('/modificarRemate/:id', validarJWT, ctlRemate.modificarRemate);
 
 module.exports = router;

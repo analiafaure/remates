@@ -28,6 +28,7 @@ console.log(req.body)
 }
 
 exports.listarRemates = async(req,res)=>{
+    if (req.params.activo == '2' ){
         Remate.findAll().then(data => {
             res.send(data)
         }).catch(err => {
@@ -37,6 +38,20 @@ exports.listarRemates = async(req,res)=>{
                 msg:'Error no se pudo mostrar los remates'
             })
         })
+    }
+    else{
+        await Remate.findAll({
+            where:{ activo: req.params.activo}
+        }).then(data => {
+            res.send(data)
+        }).catch(err => {
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg:'Error no se pudo mostrar los remates'
+            })
+        })
+    }
 }
 
 exports.remateVigente = async(req,res)=>{
@@ -61,15 +76,11 @@ exports.remateVigente = async(req,res)=>{
 }
 
 exports.remateProximo = async (req, res) =>{
-    
-    Remate.findAll({
-        where: Remate.activo = true
+    Remate.findOne({
+        where: { activo : true } ,
+        order: [['fechaInicio','ASC']] 
     }).then(data => {
-        data.forEach(element => {
-            if (element.fechaInicio > dateFormat){
-                res.send(element)      
-            }
-        })
+        res.send( data)        
     }).catch(err => {
         res.status(404).json({
             error:err,
@@ -79,4 +90,25 @@ exports.remateProximo = async (req, res) =>{
     })
 }
 
+exports.modificarRemate = async(req,res)=>{
+    const { id }= req.params;
+   await Remate.update(
+    req.body,
+    {
+        where:{ id: id}
+    }
+    ).then(data =>{
+        res.status(200).json({
+            ok: true,
+            msg: 'Remate modificado ok!',
+            data: data
+       })
+    }).catch(err =>{
+        res.status(404).json({
+            error:err,
+            ok:false,
+            msg: 'Error al modificar el remates'
+        })
+    })
+}
 
