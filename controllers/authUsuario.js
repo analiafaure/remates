@@ -51,7 +51,7 @@ exports.login = async (req, res, next) => {
         msg : "El usuario no esta registrado." 
       });
     }
-  }catch (error) {
+  }catch(err) {
      return res.status(500).json({
         error: err,
         ok: false,
