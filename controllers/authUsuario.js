@@ -7,8 +7,7 @@ const nodemailer = require('nodemailer');
 exports.login = async (req, res, next) => {
   try{
     // busco el usuario con el email recibido
-    console.log(req.body);
-    const usuarioDb = await Usuario.findOne({ where : {email : req.body.email }});
+   const usuarioDb = await Usuario.findOne({ where : {email : req.body.email }});
     
     // si el usuario existe
     if(usuarioDb){
@@ -20,17 +19,20 @@ exports.login = async (req, res, next) => {
         // genero el token
         await generarJWT(req.body.email, usuarioDb.tipoUsuario, usuarioDb.id).then(data =>
           {
-          console.log(data);
           res.status(200).json({ 
             ok:true,
+            id: usuarioDb.id,
             nombre: usuarioDb.nombre,
             apellido: usuarioDb.apellido,
             tipoUsuario: usuarioDb.tipoUsuario,
             email: usuarioDb.email,
+            primerLogin: usuarioDb.primerLogin,
+            reinicioClave: usuarioDb.reinicioClave,
             token : data
         })
         }).catch(err =>{
-          return res.status(500).json({
+          return res.status(404).json({
+            error: err,
             ok: false,
             msg:'Error al generar token'
         })
@@ -50,8 +52,8 @@ exports.login = async (req, res, next) => {
       });
     }
   }catch (error) {
-    console.log(error);
-    return res.status(500).json({
+     return res.status(500).json({
+        error: err,
         ok: false,
         msg:'Error haciendo login, informar al administrador.'
     })
@@ -74,19 +76,18 @@ exports.recuperarClave = async (req, res, next) => {
         // hasheo la passwd
         const salt = bcrypt.genSaltSync();
         claveHash = bcrypt.hashSync(aux, salt);
-        // console.log('nueva clave: ', aux);
-        
+        console.log('clave:'+ aux);
         // actualizo el registro de clave del usuario ;)
-        Usuario.update({clave : claveHash},  {where: { id: usuarioDb.id }})
+        Usuario.update({clave : claveHash, reinicioClave: true},  {where: { id: usuarioDb.id }})
         .then(num => {
           if (num == 1) {
             let transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user:'remate.online.ctes@gmail.com',
-                pass:'remates123'
-                }
-            });
+              service:'gmail',
+              auth: {
+                        user:process.env.CORREO,
+                        pass:process.env.CLAVE
+                        }
+              });
 
             let cuerpoemail = "<h1>Hola " + usuarioDb.nombre + " </h1>"+
                                 "<p> Recibimos una solicitud para resetear su contraseña</p>"+
