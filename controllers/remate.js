@@ -16,8 +16,6 @@ console.log(req.body)
         topePuja,
         activo: true
     }).then(data =>{
-        console.log(data);
-        
         res.send('se genero ok')    
     }).catch(err =>{
         res.status(400).json({
