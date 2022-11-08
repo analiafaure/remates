@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/altaLote',validarJWT, ctlLote.altaLote);
 router.get('/listarLotes/:vendido',validarJWT, ctlLote.listarLotes);
-router.get('/modificarLote/:id', validarJWT, ctlLote.modificarLote);
+router.put('/modificarLote/:id', validarJWT, ctlLote.modificarLote);
 //lotes no vendidos
 
 module.exports = router;
