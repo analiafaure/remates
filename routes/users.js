@@ -13,5 +13,6 @@ router.get('/listarUsuarios/:activo',validarJWT, ctlUsuario.listarUsuarios);
 router.put('/modificarUsuario/:id', validarJWT, ctlUsuario.modificarUsuario);
 router.get('/getUsuarioId/:id', validarJWT, ctlUsuario.getUsuarioId);
 router.delete('/eliminarUsuario/:id', validarJWT, ctlUsuario.eliminarUsuario);
+router.get('/listarUsuariosTipo/:tipo',validarJWT, ctlUsuario.listarUsuariosTipo)
 
 module.exports = router;

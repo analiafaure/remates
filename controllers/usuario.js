@@ -200,3 +200,31 @@ exports.eliminarUsuario = async(req,res)=>{
     })
 }
 
+exports.listarUsuariosTipo = async(req,res)=>{
+    const tipo = req.params.tipo
+    console.log(tipo)
+    await Usuario.findAll({
+           where:{ tipoUsuario: tipo}
+       }).then(data => {
+            if(data.length===0){
+                res.send({
+                    ok:false,
+                    msg:"No hay usuarios de ese tipo"
+                })
+            }
+            else{
+                res.send({
+                    ok:true,
+                    data: data
+                })
+            }
+           
+       }).catch(err => {
+           res.status(404).json({
+               error:err,
+               ok:false,
+               msg:'Error no se pudo mostrar los usuarios'
+           })
+       })
+}
+

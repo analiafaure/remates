@@ -115,21 +115,3 @@ exports.modificarRemate = async(req,res)=>{
         })
     })
 }
-
-exports.asociarConRemate = async(req, res)=>{
-    const data = req.body;
-    console.log(data);
-    let i = 0;
-    await loteRemateR.forEach(element => {
-        RemateLote.create(element)
-        .then(data =>{
-            i = i + 1;
-            if (len === i) {
-                res.status(200).json({
-                    ok:true,
-                    msg: 'Asociaciones creadas ok!'
-                });        
-            }
-        })
-    })
-}

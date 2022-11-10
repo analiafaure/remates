@@ -1,10 +1,10 @@
 const Lote = require('../models').Lote
 var http = require('http');
+const RemateLote = require('../models').RemateLote
 
 exports.altaLote = async(req, res)=>{
-
    Lote.create(req.body).then(data =>{
-        res.status(http.STATUS_CODES).json({
+        res.status(200).json({
             ok: true,
             msg: 'Se dio de alta un nuevo Lote',
             data: data
@@ -66,3 +66,43 @@ exports.modificarLote = async(req,res)=>{
         })
     })
 }
+
+exports.getLotePorPartida = async(req,res)=>{
+    const partida = req.params.partida
+
+    await Lote.findOne({
+        where: { partidaInmobiliaria: partida }
+    }).then(data => {
+        res.send(data)
+    }).catch(err => {
+        res.status(404).json({
+            error:err,
+            ok:false,
+            msg:'Error no se encontro el lote con dicha partida inmobiliaria'
+        })
+    })
+}
+exports.asociarConRemate = async (req, res)=>{
+    const data = req.body;
+    let asignacion
+    for (i=0; i < data.lotes.length; ++i ){
+        asignacion = await RemateLote.create({
+            idRemate: data.remate,
+            idLote: data.lotes[i]
+        })
+    }
+    if (asignacion){
+        res.status(200).json({
+        ok:true,
+        msg: 'Lotes asociados' 
+        })
+    }
+    else{
+        res.status(400).json({
+        ok:false,
+        msg:'Error al asignar lotes a un remate'
+        })
+    }
+}
+
+                
