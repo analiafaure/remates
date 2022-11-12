@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey:'id'
       })
       Remate.hasMany(models.Oferta,{
-        foreignKey:'idRemate'
+        foreignKey:'id'
       })      
     }
   }

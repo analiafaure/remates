@@ -16,6 +16,7 @@ var usersRouter = require('./routes/users');
 var remateRouter = require('./routes/remate');
 var authRouter = require('./routes/authUsuario');
 var loteRouter = require('./routes/lote');
+var ofertaRouter = require('./routes/oferta');
 
 var app = express();
 app.use(helmet({contentSecurityPolicy: false}));  // Ayuda a proteger aplicaciones Express
@@ -43,6 +44,7 @@ app.use('/users', usersRouter);
 app.use('/remate', remateRouter);
 app.use('/auth', authRouter);
 app.use('/lote', loteRouter);
+app.use('/oferta', ofertaRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

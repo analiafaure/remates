@@ -9,6 +9,6 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/altaOferta',validarJWT, ctlOferta.altaOferta);
-router.get('/listarOfertasCliente/:cliente',validarJWT, ctlOferta.listarOfertasCliente);
+router.post('/altaOferta', ctlOferta.altaOferta);
+router.get('/listarOfertasCliente/:cliente', ctlOferta.listarOfertasCliente);
 module.exports = router;
