@@ -8,22 +8,26 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      idRemate: {
+      RemateId: {
         type: Sequelize.INTEGER,
         references:{
           model: 'Remate',
           key: 'id'
         }
       },
-      idLote: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Lote',
+      LoteId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Lote', // 'Movies' would also work
           key: 'id'
         }
       },
-      idUsuario: {
-        type: Sequelize.INTEGER
+      UsuarioId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Usuario', // 'Movies' would also work
+          key: 'id'
+        }
       },
       valorOferta: {
         type: Sequelize.DECIMAL

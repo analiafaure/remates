@@ -9,22 +9,26 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    /*static associate(models) {
+    static associate(models) {
       // define association here
       Oferta.belongsTo(models.Remate,{
         foreignkey:'id',
-        target_key:'idRemate'
+        target_key:'RemateId'
       }) 
       Oferta.belongsTo(models.Lote,{
         foreignkey:'id',
-        target_key:'idLote'
+        target_key:'LoteId'
+      })
+      Oferta.belongsTo(models.Usuario,{
+        foreignkey:'id',
+        target_key:'UsuarioId'
       }) 
-    }*/
+    }
   }
   Oferta.init({
-    idRemate: DataTypes.INTEGER,
-    idLote: DataTypes.INTEGER,
-    idUsuario: DataTypes.INTEGER,
+    RemateId: DataTypes.INTEGER,
+    LoteId: DataTypes.INTEGER,
+    UsuarioId: DataTypes.INTEGER,
     valorOferta: DataTypes.DECIMAL
   }, {
     sequelize,

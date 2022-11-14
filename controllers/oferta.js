@@ -1,4 +1,9 @@
+const lote = require('../models/lote')
+
 const Oferta = require('../models').Oferta
+const Lote = require('../models').Lote
+const Remate = require('../models').Remate
+const Usuario = require('../models').Usuario
 
 exports.altaOferta = async(req, res)=>{
     Oferta.create(req.body).then(data =>{
@@ -16,10 +21,15 @@ exports.altaOferta = async(req, res)=>{
      })
  }
      exports.listarOfertasCliente = async(req,res)=>{
-         const cliente = req.params.cliente 
-             Oferta.findAll({
-                where: {idUsuario : cliente }
-             }).then(data => {
+         const cliente = req.params.cliente
+         console.log(JSON.stringify(await Oferta.findAll({include:[{model:Lote,required: true},{model: Remate,required:true}, Usuario],where: {UsuarioId : cliente }})));
+               
+         Oferta.findAll({include:
+            [{model:Lote,required: true},
+            {model: Remate,required:true}, 
+            Usuario],
+            where: {UsuarioId : cliente }})
+         .then(data => {
                  res.send(data)
              }).catch(err => {
                  res.status(404).json({

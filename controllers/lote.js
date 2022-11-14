@@ -1,4 +1,5 @@
 const Lote = require('../models').Lote
+const Oferta = require('../models').Oferta
 var http = require('http');
 const RemateLote = require('../models').RemateLote
 
@@ -71,6 +72,9 @@ exports.getLotePorPartida = async(req,res)=>{
     const partida = req.params.partida
 
     await Lote.findOne({
+        /*include:
+            [{model:Oferta,required: true}],
+        //order: [['valorOferta','ASC']], */
         where: { partidaInmobiliaria: partida }
     }).then(data => {
         res.send(data)
