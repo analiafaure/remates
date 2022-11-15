@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/altaOferta', ctlOferta.altaOferta);
-router.get('/listarOfertasCliente/:cliente', ctlOferta.listarOfertasCliente);
-router.get('/ofertaMax/:lote/:remate', ctlOferta.ofertaMax)
+router.post('/altaOferta',validarJWT, ctlOferta.altaOferta);
+router.get('/listarOfertasCliente/:cliente', validarJWT,ctlOferta.listarOfertasCliente);
+router.get('/ofertaMax/:lote/:remate', validarJWT,ctlOferta.ofertaMax)
 module.exports = router;
