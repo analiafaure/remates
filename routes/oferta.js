@@ -11,4 +11,5 @@ router.get('/', function(req, res, next) {
 
 router.post('/altaOferta', ctlOferta.altaOferta);
 router.get('/listarOfertasCliente/:cliente', ctlOferta.listarOfertasCliente);
+router.get('/ofertaMax/:lote/:remate', ctlOferta.ofertaMax)
 module.exports = router;
