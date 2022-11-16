@@ -70,21 +70,26 @@ exports.modificarLote = async(req,res)=>{
 
 exports.getLotePorPartida = async(req,res)=>{
     const partida = req.params.partida
-
-    await Lote.findOne({
-        /*include:
-            [{model:Oferta,required: true}],
-        //order: [['valorOferta','ASC']], */
-        where: { partidaInmobiliaria: partida }
-    }).then(data => {
-        res.send(data)
-    }).catch(err => {
-        res.status(404).json({
-            error:err,
-            ok:false,
-            msg:'Error no se encontro el lote con dicha partida inmobiliaria'
-        })
+  
+    Oferta.findAll({
+        include:{
+            model:Lote,
+            as:'Lote',
+            where:{
+                partidaInmobiliaria:partida
+            }
+        },                   
+       order: [['valorOferta','DESC']]
     })
+       .then(data => {
+            res.send(data)
+        }).catch(err => {
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg:'Error no se encontro el lote con dicha partida inmobiliaria'
+            })
+        })
 }
 exports.asociarConRemate = async (req, res)=>{
     const data = req.body;

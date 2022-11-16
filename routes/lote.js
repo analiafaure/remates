@@ -1,4 +1,5 @@
 var express = require('express');
+const { ValidationError } = require('sequelize');
 var router = express.Router();
 const ctlLote = require('../controllers/lote.js');
 const { validarJWT } = require('../utils/validar-jwt');
