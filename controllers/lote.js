@@ -82,7 +82,15 @@ exports.getLotePorPartida = async(req,res)=>{
        order: [['valorOferta','DESC']]
     })
        .then(data => {
+        if(data.length===0){
+            res.send({
+                ok:false,
+                msg:"No hay ofertas para ese lote"
+            })
+        }
+        else{
             res.send(data)
+        }
         }).catch(err => {
             res.status(404).json({
                 error:err,

@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/altaOferta',validarJWT, ctlOferta.altaOferta);
-router.get('/listarOfertasCliente/:cliente', validarJWT,ctlOferta.listarOfertasCliente);
-router.get('/ofertaMax/:lote/:remate', validarJWT,ctlOferta.ofertaMax)
+router.get('/listarOfertasCliente/:cliente',validarJWT,ctlOferta.listarOfertasCliente);
+router.get('/ofertaMax/:lote/:remate',validarJWT, ctlOferta.ofertaMax);
+router.get('/ganadoresRemate/:remate',validarJWT, ctlOferta.ganadoresRemate);
 module.exports = router;

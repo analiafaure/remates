@@ -2,7 +2,7 @@ const Oferta = require('../models').Oferta
 const Lote = require('../models').Lote
 const Remate = require('../models').Remate
 const Usuario = require('../models').Usuario
-const Sequelize = require('sequelize');
+const axios = require('axios');
 
 exports.altaOferta = async(req, res)=>{
     Oferta.create(req.body).then(data =>{
@@ -21,6 +21,7 @@ exports.altaOferta = async(req, res)=>{
  }
      exports.listarOfertasCliente = async(req,res)=>{
          const cliente = req.params.cliente
+         let dataMax = [];
          //console.log(JSON.stringify(await Oferta.findAll({include:[{model:Lote,required: true},{model: Remate,required:true}, Usuario],where: {UsuarioId : cliente }})));
          Oferta.findAll({
             where: { UsuarioId : cliente },
@@ -29,8 +30,25 @@ exports.altaOferta = async(req, res)=>{
             [{model:Lote},
             {model: Remate}, 
             Usuario]})
-            .then(data => {
-                 res.send(data)
+            .then(async data => {
+                for (i=0; i < data.length; ++i ){
+//refactorizar      
+                    const max = await Oferta.findAll({
+                    where: { LoteId : data[i].LoteId, RemateId: data[i].RemateId },
+                    order: [['valorOferta','DESC']],
+                    limit: [1],
+                    include:
+                        [ {model:Usuario}]
+                            })
+                let x = {
+                    "lista": data[i],
+                    "ganador": max[0].valorOferta ===  data[i].valorOferta ? true : false
+                    }                               
+                dataMax.push(x)
+                }  
+                if (dataMax){
+                    res.send(dataMax)
+                }
              }).catch(err => {
                  res.status(404).json({
                      error:err,
@@ -45,15 +63,14 @@ exports.altaOferta = async(req, res)=>{
     const remate = req.params.remate
     
     await Oferta.findAll({
-                attributes:[[Sequelize.fn('max', Sequelize.col('valorOferta')),'max']],
-                where: { 
-                   LoteId : lote ,
-                   RemateId: remate
-                }
-           }) 
+        where: { LoteId : lote, RemateId: remate },
+        order: [['valorOferta','DESC']],
+        limit: [1],
+        include:
+            [ {model:Usuario}]
+                }) 
     .then(data => {
-        console.log(data)
-            res.send(data)
+          res.send(data)
         }).catch(err => {
             res.status(404).json({
                 error:err,
@@ -62,3 +79,47 @@ exports.altaOferta = async(req, res)=>{
             })
         })
 }
+
+exports.ganadoresRemate = async(req,res)=>{
+    const remate = req.params.remate
+    await Oferta.findAll({
+                where: { 
+                   RemateId: remate
+                },
+                include:
+                    [{model:Lote},
+                    {model:Usuario}]
+                }) 
+    .then(async data => {
+        const lotes = [];
+        const ganadores = [];
+        data.forEach(e => {
+            if (lotes.indexOf(e.LoteId) === -1) {
+                lotes.push(e.LoteId);
+            }
+        });
+        for (i=0; i < lotes.length; ++i ){
+            let ganador = await Oferta.findAll({
+                where: { LoteId : lotes[i], RemateId: remate },
+                order: [['valorOferta','DESC']],
+                limit: [1],
+                include:
+                    [{model:Lote},
+                    {model:Usuario}]
+                
+            })
+            ganadores.push(ganador)
+        }
+        if (ganadores){
+            res.send(ganadores)
+        }
+        
+    }).catch(err => {
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg:'Error no se pudo listar los ganadores'
+            })
+        })
+}
+
