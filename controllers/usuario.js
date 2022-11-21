@@ -8,7 +8,7 @@ exports.altaUsuario = async(req, res)=>{
     let cuerpoCorreo = `<h1>Hola  ${nombre}  </h1>
     <p>Ya podes ingresar al sistema de remates online.</p>
     <p>Tu usuario es ${email} </p>
-    <p>Hace clic en el siguiente enlace:  http://${process.env.IP}/#/auth/login</p>`;
+    <p>Hace clic en el siguiente enlace:  http://${process.env.DOMINIO}/#/auth/login</p>`;
 
 
     if(!clave){
@@ -17,7 +17,7 @@ exports.altaUsuario = async(req, res)=>{
         <p>Ya podes ingresar al sistema de remates online.</p>
         <p>Tu usuario es ${email} </p>
         <p>Tu clave es ${dni}. Recomendamos modificar su clave </p>
-        <p>Hace clic en el siguiente enlace:  http://${process.env.IP}/#/auth/login</p>`;
+        <p>Hace clic en el siguiente enlace:  http://${process.env.DOMINIO}/#/auth/login</p>`;
     }
     Usuario.create({
         nombre,
@@ -41,7 +41,7 @@ exports.altaUsuario = async(req, res)=>{
             let mailOptions = {
                 from: 'Remates online',
                 to: email,
-                bcc: 'remate.online.ctes@gmail.com',
+                bcc: process.env.CORREO_OPERADOR1,CORREO_OPERADOR2,
                 subject: 'Remates online - Nuevo Usuario',
                 html: cuerpoCorreo
             };
@@ -169,5 +169,62 @@ exports.getUsuarioId = async(req,res)=>{
             msg:'Error no se encontro el usuario'
         })
     })
+}
+
+exports.eliminarUsuario = async(req,res)=>{
+    const id = req.params.id
+    await Usuario.destroy({
+        where: {id: id}
+    }).then(data => {
+        if(data === 1){
+            res.send({
+                data: data,
+                ok:true,
+                msg: 'El usuario ha sido eliminado'
+            })
+        }
+        else{
+            res.send({
+                data: data,
+                ok:true,
+                msg: 'El usuario no existe'
+            })
+        }
+        
+    }).catch(err => {
+        res.status(404).json({
+        error: err,
+        ok: false,
+        msg: 'No se pudo eliminar el usuario'
+        })
+    })
+}
+
+exports.listarUsuariosTipo = async(req,res)=>{
+    const tipo = req.params.tipo
+    console.log(tipo)
+    await Usuario.findAll({
+           where:{ tipoUsuario: tipo}
+       }).then(data => {
+            if(data.length===0){
+                res.send({
+                    ok:false,
+                    msg:"No hay usuarios de ese tipo"
+                })
+            }
+            else{
+                res.send({
+                    ok:true,
+                    data: data
+                })
+            }
+           
+       }).catch(err => {
+           res.status(404).json({
+               error:err,
+               ok:false,
+               msg:'Error no se pudo mostrar los usuarios'
+           })
+       })
 }
 

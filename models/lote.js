@@ -11,9 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Lote.hasMany(models.Oferta,{
-        foreignKey:'idLote'
-      })
+      Lote.belongsToMany(models.Remate, 
+        { through: 'Oferta' })
       Lote.hasMany(models.RemateLote,{
         foreignKey:'idRemateLote'
       })

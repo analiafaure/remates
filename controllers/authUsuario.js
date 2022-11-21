@@ -51,7 +51,7 @@ exports.login = async (req, res, next) => {
         msg : "El usuario no esta registrado." 
       });
     }
-  }catch (error) {
+  }catch(err) {
      return res.status(500).json({
         error: err,
         ok: false,
@@ -92,7 +92,7 @@ exports.recuperarClave = async (req, res, next) => {
             let cuerpoemail = "<h1>Hola " + usuarioDb.nombre + " </h1>"+
                                 "<p> Recibimos una solicitud para resetear su contraseña</p>"+
                                 "<p>Nueva contraseña:  " + aux + "</p>"+
-                                "<p><h4>Rogamos que modifique la misma una vez que ingrese al sitio </h4></p>";
+                                "<p><h4>Modifique su clave luego de ingresar al sitio </h4></p>";
 
             let mailOptions = {
               from: 'Remates online',
@@ -151,7 +151,6 @@ exports.recuperarClave = async (req, res, next) => {
 exports.revalidarToken = async (req, res, next) => {
   //llego acá porque valido el jwt que llego en el header de la consulta
   const {email, tipoUsuario} = req;
-
 
   return res.status(200).json({
       ok: true,

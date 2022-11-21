@@ -5,9 +5,7 @@ const dateFormat =moment(date,"YYYY/MM/DD HH:mm")
     
 exports.altaRemate = async(req, res)=>{
     const { descripcion, fechaInicio, fechaFin, costoPuja, incrementoPuja,topePuja } = req.body
-    
-console.log(req.body)
-   Remate.create({
+    Remate.create({
         descripcion,
         fechaInicio,
         fechaFin,
@@ -16,20 +14,25 @@ console.log(req.body)
         topePuja,
         activo: true
     }).then(data =>{
-        console.log(data);
-        
-        res.send('se genero ok')    
+        res.status(200).json({
+            data:data,
+            ok:true,
+            msg:'Se dio de alta un nuevo remate'
+        })    
     }).catch(err =>{
         res.status(400).json({
             ok:false,
-            msg: 'Error no se pudo registrar el Remate'
+            msg: 'Error no se pudo registrar el Remate',
+            error: err
         })
     })
 }
 
 exports.listarRemates = async(req,res)=>{
     if (req.params.activo == '2' ){
-        Remate.findAll().then(data => {
+        Remate.findAll({
+            order: [['fechaInicio','ASC']] 
+        }).then(data => {
             res.send(data)
         }).catch(err => {
             res.status(404).json({
@@ -41,7 +44,8 @@ exports.listarRemates = async(req,res)=>{
     }
     else{
         await Remate.findAll({
-            where:{ activo: req.params.activo}
+            where:{ activo: req.params.activo},
+            order: [['fechaInicio','ASC']] 
         }).then(data => {
             res.send(data)
         }).catch(err => {
@@ -58,7 +62,7 @@ exports.remateVigente = async(req,res)=>{
     let rematesVigentes=[]
     
     Remate.findAll({
-        where: Remate.activo = true
+        where: { activo : true } 
     }).then(data => {
         data.forEach(element => {
             if (element.fechaInicio < dateFormat && element.fechaFin > dateFormat){
@@ -111,4 +115,3 @@ exports.modificarRemate = async(req,res)=>{
         })
     })
 }
-

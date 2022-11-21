@@ -1,16 +1,20 @@
 const Lote = require('../models').Lote
+const Oferta = require('../models').Oferta
+var http = require('http');
+const RemateLote = require('../models').RemateLote
 
 exports.altaLote = async(req, res)=>{
-    
-console.log(req.body)
    Lote.create(req.body).then(data =>{
-        console.log(data);
-        
-        res.send('se genero ok')    
+        res.status(200).json({
+            ok: true,
+            msg: 'Se dio de alta un nuevo Lote',
+            data: data
+        })   
     }).catch(err =>{
         res.status(400).json({
             ok:false,
-            msg: 'Error no se pudo registrar el Lote'
+            msg: 'Error no se pudo registrar el Lote',
+            error: err
         })
     })
 }
@@ -56,10 +60,66 @@ exports.modificarLote = async(req,res)=>{
             data: data
        })
     }).catch(err =>{
-        res.status(404).json({
+        res.status(http.STATUS_CODES).json({
             error:err,
             ok:false,
             msg: 'Error al modificar el Lotes'
         })
     })
 }
+
+exports.getLotePorPartida = async(req,res)=>{
+    const partida = req.params.partida
+  
+    Oferta.findAll({
+        include:{
+            model:Lote,
+            as:'Lote',
+            where:{
+                partidaInmobiliaria:partida
+            }
+        },                   
+       order: [['valorOferta','DESC']]
+    })
+       .then(data => {
+        if(data.length===0){
+            res.send({
+                ok:false,
+                msg:"No hay ofertas para ese lote"
+            })
+        }
+        else{
+            res.send(data)
+        }
+        }).catch(err => {
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg:'Error no se encontro el lote con dicha partida inmobiliaria'
+            })
+        })
+}
+exports.asociarConRemate = async (req, res)=>{
+    const data = req.body;
+    let asignacion
+    for (i=0; i < data.lotes.length; ++i ){
+        asignacion = await RemateLote.create({
+            idRemate: data.remate,
+            idLote: data.lotes[i]
+        })
+    }
+    if (asignacion){
+        res.status(200).json({
+        ok:true,
+        msg: 'Lotes asociados' 
+        })
+    }
+    else{
+        res.status(400).json({
+        ok:false,
+        msg:'Error al asignar lotes a un remate'
+        })
+    }
+}
+
+                

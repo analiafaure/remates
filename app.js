@@ -16,6 +16,7 @@ var usersRouter = require('./routes/users');
 var remateRouter = require('./routes/remate');
 var authRouter = require('./routes/authUsuario');
 var loteRouter = require('./routes/lote');
+var ofertaRouter = require('./routes/oferta');
 
 var app = express();
 app.use(helmet({contentSecurityPolicy: false}));  // Ayuda a proteger aplicaciones Express
@@ -43,6 +44,7 @@ app.use('/users', usersRouter);
 app.use('/remate', remateRouter);
 app.use('/auth', authRouter);
 app.use('/lote', loteRouter);
+app.use('/oferta', ofertaRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -59,13 +61,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-const serverHttp= http.createServer(app);
-serverHttp.listen(process.env.HTTP_PORT, process.env.IP);
+//const serverHttp= http.createServer(app);
+//serverHttp.listen(process.env.HTTP_PORT, process.env.IP);
 
 // Servidor HTTPS
 const serverHttps = https.createServer(httpsServerOptions, app);
 serverHttps.listen(process.env.HTTPS_PORT, process.env.IP);
-serverHttp.on('listening',()=>console.info( `Notes app running at https://${process.env.IP}:${process.env.HTTP_PORT} `)); 
+serverHttps.on('listening',()=>console.info( `Notes app running at https://${process.env.IP}:${process.env.HTTP_PORT} `)); 
 
 app.use((req, res, next) => {
   if (req.secure) next(); else res.redirect(`https://${req.headers.host}${req.url}`);
