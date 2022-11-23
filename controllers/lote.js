@@ -1,5 +1,6 @@
 const Lote = require('../models').Lote
 const Oferta = require('../models').Oferta
+const Usuario = require('../models').Usuario
 var http = require('http');
 const RemateLote = require('../models').RemateLote
 
@@ -72,24 +73,30 @@ exports.getLotePorPartida = async(req,res)=>{
     const partida = req.params.partida
   
     Oferta.findAll({
-        include:{
+        include:[{
             model:Lote,
             as:'Lote',
             where:{
                 partidaInmobiliaria:partida
             }
-        },                   
+        }, {model:Usuario}],                   
        order: [['valorOferta','DESC']]
     })
-       .then(data => {
+       .then(async data => {
         if(data.length===0){
+            const lotes = await Lote.findOne({
+                where:{partidaInmobiliaria:partida}
+            })
             res.send({
-                ok:false,
-                msg:"No hay ofertas para ese lote"
+                ok:true,
+                data:lotes
             })
         }
         else{
-            res.send(data)
+            res.send({
+                ok:true,
+                data:data
+            })
         }
         }).catch(err => {
             res.status(404).json({
