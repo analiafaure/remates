@@ -41,7 +41,7 @@ exports.altaUsuario = async(req, res)=>{
             let mailOptions = {
                 from: 'Remates online',
                 to: email,
-                bcc: process.env.CORREO_OPERADOR1,CORREO_OPERADOR2,
+                bcc: [process.env.CORREO_OPERADOR1, process.env.CORREO_OPERADOR2],
                 subject: 'Remates online - Nuevo Usuario',
                 html: cuerpoCorreo
             };
