@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "root",
-    "password": "Root123456",
+    "username": "remate_user",
+    "password": "160.remate.160",
     "database": "database_remate",
     "host": "127.0.0.1",
     "dialect": "mysql"

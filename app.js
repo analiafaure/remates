@@ -61,8 +61,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//const serverHttp= http.createServer(app);
-//serverHttp.listen(process.env.HTTP_PORT, process.env.IP);
+// const serverHttps= http.createServer(app);
+// serverHttps.listen(process.env.HTTP_PORT, process.env.IP);
 
 // Servidor HTTPS
 const serverHttps = https.createServer(httpsServerOptions, app);
