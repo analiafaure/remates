@@ -6,18 +6,18 @@ const helpers = require('../config/helpers')
 exports.altaUsuario = async(req, res)=>{
     let { nombre, apellido, email, clave, tipoUsuario, dni } = req.body
     let cuerpoCorreo = `<h1>Hola  ${nombre}  </h1>
-    <p>Ya podes ingresar al sistema de remates online.</p>
+    <p>Ya podes ingresar a Chacras de San Cayetano.</p>
     <p>Tu usuario es ${email} </p>
-    <p>Hace clic en el siguiente enlace:  http://${process.env.DOMINIO}/#/auth/login</p>`;
+    <p>Ingresa haciendo click en el enlace:  ${process.env.DOMINIO}/#/auth/login</p>`;
 
 
     if(!clave){
         clave = dni
         cuerpoCorreo = `<h1>Hola ${nombre}  </h1>
-        <p>Ya podes ingresar al sistema de remates online.</p>
+        <p>Ya podes ingresar a Chacras de San Cayetano.</p>
         <p>Tu usuario es ${email} </p>
         <p>Tu clave es ${dni}. Recomendamos modificar su clave </p>
-        <p>Hace clic en el siguiente enlace:  http://${process.env.DOMINIO}/#/auth/login</p>`;
+        <p>Ingresa haciendo click en el enlace:  ${process.env.DOMINIO}/#/auth/login</p>`;
     }
     Usuario.create({
         nombre,
