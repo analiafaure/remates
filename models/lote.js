@@ -13,9 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Lote.belongsToMany(models.Remate, 
         { through: 'Oferta' })
-      Lote.hasMany(models.RemateLote,{
-        foreignKey:'idRemateLote'
-      })
+      Lote.belongsToMany(models.Remate, 
+        { through: 'RemateLote' })
       Lote.belongsTo(models.PlanoMensura,{
         foreignKey:'id',
         target_key:'idPlanoMensura'

@@ -111,8 +111,8 @@ exports.asociarConRemate = async (req, res)=>{
     let asignacion
     for (i=0; i < data.lotes.length; ++i ){
         asignacion = await RemateLote.create({
-            idRemate: data.remate,
-            idLote: data.lotes[i]
+            RemateId: data.remate,
+            LoteId: data.lotes[i]
         })
     }
     if (asignacion){

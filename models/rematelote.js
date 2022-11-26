@@ -13,17 +13,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       RemateLote.belongsTo(models.Remate,{
         foreignkey:'id',
-        target_key:'idRemate'
+        target_key:'RemateId'
       }) 
       RemateLote.belongsTo(models.Lote,{
         foreignkey:'id',
-        target_key:'idLote'
-      })      
+        target_key:'LoteId'
+      })     
     }
   }
   RemateLote.init({
-    idRemate: DataTypes.INTEGER,
-    idLote: DataTypes.INTEGER
+    RemateId: DataTypes.INTEGER,
+    LoteId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'RemateLote',
