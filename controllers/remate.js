@@ -126,7 +126,18 @@ exports.lotesAsociadosRemate = async(req,res)=>{
             include:
             [{model:Lote}] 
         }).then(data => {
-            console.log(data)
+            if(data.length===0){
+               res.send({
+                    ok:false,
+                    msg:"Sin lotes asociados"
+                })
+            }
+            else{
+                res.send({
+                    ok:true,
+                    data:data
+                })
+            }
             res.send(data)
         }).catch(err => {
             console.log(err)

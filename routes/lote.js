@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 router.post('/altaLote',validarJWT, ctlLote.altaLote);
 router.get('/listarLotes/:vendido',validarJWT, ctlLote.listarLotes);
 router.put('/modificarLote/:id', validarJWT, ctlLote.modificarLote);
-router.get('/getLotePorPartida/:partida',validarJWT, ctlLote.getLotePorPartida);
+router.get('/getLotePorPartida/:partida/:remate', validarJWT, ctlLote.getLotePorPartida);
 router.post('/asociarConRemate', validarJWT, ctlLote.asociarConRemate);
 
 module.exports = router;

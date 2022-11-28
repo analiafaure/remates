@@ -71,17 +71,20 @@ exports.modificarLote = async(req,res)=>{
 
 exports.getLotePorPartida = async(req,res)=>{
     const partida = req.params.partida
-  
-    Oferta.findAll({
-        include:[{
-            model:Lote,
-            as:'Lote',
-            where:{
-                partidaInmobiliaria:partida
-            }
-        }, {model:Usuario}],                   
-       order: [['valorOferta','DESC']]
-    })
+    const remate = req.params.remate
+   
+    if (remate != 0){
+        Oferta.findAll({
+            include:[{
+                model:Lote,
+                as:'Lote',
+                where:{
+                    partidaInmobiliaria:partida
+                }
+            }, {model:Usuario}],   
+           where : { RemateId: remate},                
+           order: [['valorOferta','DESC']]
+        })    
        .then(async data => {
         if(data.length===0){
             const lotes = await Lote.findOne({
@@ -105,6 +108,42 @@ exports.getLotePorPartida = async(req,res)=>{
                 msg:'Error no se encontro el lote con dicha partida inmobiliaria'
             })
         })
+    }
+    else{
+        Oferta.findAll({
+            include:[{
+                model:Lote,
+                as:'Lote',
+                where:{
+                    partidaInmobiliaria:partida
+                }
+            }, {model:Usuario}],   
+           order: [['valorOferta','DESC']]
+        })    
+       .then(async data => {
+        if(data.length===0){
+            const lotes = await Lote.findOne({
+                where:{partidaInmobiliaria:partida}
+            })
+            res.send({
+                ok:true,
+                data:lotes
+            })
+        }
+        else{
+            res.send({
+                ok:true,
+                data:data
+            })
+        }
+        }).catch(err => {
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg:'Error no se encontro el lote con dicha partida inmobiliaria'
+            })
+        })
+    }
 }
 exports.asociarConRemate = async (req, res)=>{
     const data = req.body;
