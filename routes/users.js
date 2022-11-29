@@ -13,6 +13,7 @@ router.get('/listarUsuarios/:activo',validarJWT, ctlUsuario.listarUsuarios);
 router.put('/modificarUsuario/:id', validarJWT, ctlUsuario.modificarUsuario);
 router.get('/getUsuarioId/:id', validarJWT, ctlUsuario.getUsuarioId);
 router.delete('/eliminarUsuario/:id', validarJWT, ctlUsuario.eliminarUsuario);
-router.get('/listarUsuariosTipo/:tipo',validarJWT, ctlUsuario.listarUsuariosTipo)
+router.get('/listarUsuariosTipo/:tipo',validarJWT, ctlUsuario.listarUsuariosTipo);
+router.get('/clientesRegitroCompleto/:completo', validarJWT, ctlUsuario.clientesRegistroCompleto);
 
 module.exports = router;
