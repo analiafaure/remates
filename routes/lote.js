@@ -15,5 +15,6 @@ router.get('/listarLotes/:vendido',validarJWT, ctlLote.listarLotes);
 router.put('/modificarLote/:id', validarJWT, ctlLote.modificarLote);
 router.get('/getLotePorPartida/:partida/:remate', validarJWT, ctlLote.getLotePorPartida);
 router.post('/asociarConRemate', validarJWT, ctlLote.asociarConRemate);
+router.get('/cantidadLoteRemate/:remate',validarJWT, ctlLote.cantidadLoteRemate);
 
 module.exports = router;
