@@ -11,10 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Remate.hasMany(models.RemateLote,{
-        foreignKey:'id'
-      })
-      Remate.belongsToMany(models.Lote, { through: 'Oferta' })
+      Remate.belongsToMany(models.Lote, 
+        { through: 'RemateLote' })
+      Remate.belongsToMany(models.Lote, 
+        { through: 'Oferta' })
+     
      /* Remate.hasMany(models.Oferta,{
         foreignKey:'id'
       })  */    

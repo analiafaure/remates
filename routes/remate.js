@@ -14,5 +14,6 @@ router.get('/listarRemates/:activo',validarJWT, ctlRemate.listarRemates);
 router.get('/remateVigente', validarJWT, ctlRemate.remateVigente);
 router.get('/remateProximo',validarJWT, ctlRemate.remateProximo);
 router.put('/modificarRemate/:id', validarJWT, ctlRemate.modificarRemate);
+router.get('/lotesAsociadosRemate/:remate', validarJWT, ctlRemate.lotesAsociadosRemate);
 
 module.exports = router;

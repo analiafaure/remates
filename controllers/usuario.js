@@ -2,6 +2,7 @@ const Usuario = require('../models').Usuario
 const bcrypt  = require('bcryptjs')
 const nodemailer = require('nodemailer')
 const helpers = require('../config/helpers')
+const { param } = require('../routes')
 
 exports.altaUsuario = async(req, res)=>{
     let { nombre, apellido, email, clave, tipoUsuario, dni } = req.body
@@ -227,4 +228,23 @@ exports.listarUsuariosTipo = async(req,res)=>{
            })
        })
 }
+
+exports.clientesRegistroCompleto = async(req,res)=>{
+    const completo = req.params.completo
+    await Usuario.count({
+           where:{ primerLogin: completo, tipoUsuario : 1}
+       }).then(data => {
+            res.send({
+                ok:true,
+                data: data
+                })           
+       }).catch(err => {
+           res.status(404).json({
+               error:err,
+               ok:false,
+               msg:'Error no se pudo mostrar los usuarios'
+           })
+       })
+}
+
 

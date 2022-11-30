@@ -1,5 +1,7 @@
 const Remate = require('../models').Remate
 const moment = require('moment')
+const RemateLote = require('../models').RemateLote
+const Lote = require('../models').Lote
 const date = new Date()
 const dateFormat =moment(date,"YYYY/MM/DD HH:mm")
     
@@ -114,4 +116,35 @@ exports.modificarRemate = async(req,res)=>{
             msg: 'Error al modificar el remates'
         })
     })
+}
+
+exports.lotesAsociadosRemate = async(req,res)=>{
+    const remateId = req.params.remate
+        RemateLote.findAll({
+            where :{ RemateId : remateId},
+            order : [['LoteId','ASC']],
+            include:
+            [{model:Lote}] 
+        }).then(data => {
+            if(data.length===0){
+               res.send({
+                    ok:false,
+                    msg:"Sin lotes asociados"
+                })
+            }
+            else{
+                res.send({
+                    ok:true,
+                    data:data
+                })
+            }
+            res.send(data)
+        }).catch(err => {
+            console.log(err)
+            res.status(404).json({
+                error:err,
+                ok:false,
+                msg:'Error no se pudo mostrar los lotes asociados'
+            })
+        })
 }
