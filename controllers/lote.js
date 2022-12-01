@@ -6,13 +6,13 @@ const RemateLote = require('../models').RemateLote
 
 exports.altaLote = async(req, res)=>{
    Lote.create(req.body).then(data =>{
-        res.sendStatus(200).json({
+        res.status(200).json({
             ok: true,
             msg: 'Se dio de alta un nuevo Lote',
             data: data
         })   
     }).catch(err =>{
-        res.sendStatus(400).json({
+        res.status(400).json({
             ok:false,
             msg: 'Error no se pudo registrar el Lote',
             error: err
@@ -24,7 +24,7 @@ exports.altaLote = async(req, res)=>{
             Lote.findAll().then(data => {
                 res.send(data)
             }).catch(err => {
-                res.sendStatus(404).json({
+                res.status(404).json({
                     error:err,
                     ok:false,
                     msg:'Error no se pudo mostrar los lotes'
@@ -37,7 +37,7 @@ exports.altaLote = async(req, res)=>{
             }).then(data => {
                 res.send(data)
             }).catch(err => {
-                res.sendStatus(404).json({
+                res.status(404).json({
                     error:err,
                     ok:false,
                     msg:'Error no se pudo mostrar los Lotes'
@@ -55,13 +55,13 @@ exports.modificarLote = async(req,res)=>{
         where:{ id: id}
     }
     ).then(data =>{
-        res.sendStatus(200).json({
+        res.status(200).json({
             ok: true,
             msg: 'Lote modificado ok!',
             data: data
        })
     }).catch(err =>{
-        res.sendStatus(http.STATUS_CODES).json({
+        res.status(404).json({
             error:err,
             ok:false,
             msg: 'Error al modificar el Lotes'
@@ -102,7 +102,7 @@ exports.getLotePorPartida = async(req,res)=>{
             })
         }
         }).catch(err => {
-            res.sendStatus(404).json({
+            res.status(404).json({
                 error:err,
                 ok:false,
                 msg:'Error no se encontro el lote con dicha partida inmobiliaria'
@@ -137,7 +137,7 @@ exports.getLotePorPartida = async(req,res)=>{
             })
         }
         }).catch(err => {
-            res.sendStatus(404).json({
+            res.status(404).json({
                 error:err,
                 ok:false,
                 msg:'Error no se encontro el lote con dicha partida inmobiliaria'
@@ -155,13 +155,13 @@ exports.asociarConRemate = async (req, res)=>{
         })
     }
     if (asignacion){
-        res.sendStatus(200).json({
+        res.status(200).json({
         ok:true,
         msg: 'Lotes asociados' 
         })
     }
     else{
-        res.sendStatus(400).json({
+        res.status(400).json({
         ok:false,
         msg:'Error al asignar lotes a un remate'
         })
@@ -176,7 +176,6 @@ exports.cantidadLoteRemate = async(req,res)=>{
             col: 'LoteId',
             where:{ RemateId : remate}
         }).then(async data => {
-            console.log(data)
             if(data != 0){
                 res.send({
                     ok:true,
@@ -196,7 +195,7 @@ exports.cantidadLoteRemate = async(req,res)=>{
                         msg: "Lotes sin ofertas"
                     })
                 }).catch(err => {
-                    res.sendStatus(404).json({
+                    res.status(404).json({
                         error:err,
                          ok:false,
                         msg:'Error no se pudo mostrar la cantidad'
@@ -204,8 +203,7 @@ exports.cantidadLoteRemate = async(req,res)=>{
                 })
            } 
         }).catch(err => {
-            console.log(err)
-            res.sendStatus(404).json({
+            res.status(404).json({
                 error:err,
                 ok:false,
                 msg:'Error no se pudo mostrar la cantidad'
