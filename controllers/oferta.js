@@ -6,7 +6,7 @@ const Remate = require('../models').Remate
 const Usuario = require('../models').Usuario
 
 exports.altaOferta = async(req, res)=>{
-    const usuario = req.body.UsuarioId
+   /* const usuario = req.body.UsuarioId
     req.params.lote = req.body.LoteId
     req.params.remate = req.body.RemateId
     res.setHeader({
@@ -22,9 +22,9 @@ exports.altaOferta = async(req, res)=>{
             console.log("no son iguales")
         }
     //}).catch(err =>{res.status(400).json(console.log(err))
-    //})
+    //})*/
     
-    /*Oferta.create(req.body).then(data =>{
+    Oferta.create(req.body).then(data =>{
          res.status(200).json({
              ok: true,
              msg: 'Se genero la oferta',
@@ -36,7 +36,7 @@ exports.altaOferta = async(req, res)=>{
              msg: 'Error no se pudo generar la Oferta',
              error: err
          })
-     })*/
+     })
  }
      exports.listarOfertasCliente = async(req,res)=>{
          const cliente = req.params.cliente
