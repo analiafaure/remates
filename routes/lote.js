@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/altaLote', ctlLote.altaLote);
+router.post('/altaLote', validarJWT, ctlLote.altaLote);
 router.get('/listarLotes/:vendido',validarJWT, ctlLote.listarLotes);
 router.put('/modificarLote/:id', validarJWT, ctlLote.modificarLote);
 router.get('/getLotePorPartida/:partida/:remate', validarJWT, ctlLote.getLotePorPartida);
