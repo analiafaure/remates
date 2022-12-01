@@ -1,11 +1,30 @@
+const { crossOriginResourcePolicy } = require('helmet')
+
 const Oferta = require('../models').Oferta
 const Lote = require('../models').Lote
 const Remate = require('../models').Remate
 const Usuario = require('../models').Usuario
-const axios = require('axios');
 
 exports.altaOferta = async(req, res)=>{
-    Oferta.create(req.body).then(data =>{
+    const usuario = req.body.UsuarioId
+    req.params.lote = req.body.LoteId
+    req.params.remate = req.body.RemateId
+    res.setHeader({
+        'Content-Type': 'application/json',
+        'Content-disposition': 'attachment'
+      });
+      const oferta = await this.ofertaMax(req,res)//.then(data =>{
+        console.log(oferta)
+       /* if (usuario === data.Oferta.UsuarioId){
+            console.log("los usuarios son iguales")
+        }
+        else {
+            console.log("no son iguales")
+        }
+    //}).catch(err =>{res.status(400).json(console.log(err))
+    //})
+    
+    /*Oferta.create(req.body).then(data =>{
          res.status(200).json({
              ok: true,
              msg: 'Se genero la oferta',
@@ -17,7 +36,7 @@ exports.altaOferta = async(req, res)=>{
              msg: 'Error no se pudo generar la Oferta',
              error: err
          })
-     })
+     })*/
  }
      exports.listarOfertasCliente = async(req,res)=>{
          const cliente = req.params.cliente
