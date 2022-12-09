@@ -1,43 +1,71 @@
-const { crossOriginResourcePolicy } = require('helmet')
-
 const Oferta = require('../models').Oferta
 const Lote = require('../models').Lote
 const Remate = require('../models').Remate
 const Usuario = require('../models').Usuario
+const nodemailer = require('nodemailer')
 
-exports.altaOferta = async(req, res)=>{
-   /* const usuario = req.body.UsuarioId
-    req.params.lote = req.body.LoteId
-    req.params.remate = req.body.RemateId
-    res.setHeader({
-        'Content-Type': 'application/json',
-        'Content-disposition': 'attachment'
-      });
-      const oferta = await this.ofertaMax(req,res)//.then(data =>{
-        console.log(oferta)
-       /* if (usuario === data.Oferta.UsuarioId){
-            console.log("los usuarios son iguales")
-        }
-        else {
-            console.log("no son iguales")
-        }
-    //}).catch(err =>{res.status(400).json(console.log(err))
-    //})*/
+exports.altaOferta = async (req,res)=>{
+    const usuario = req.body.UsuarioId
+    const lote = req.body.LoteId
+    const remate = req.body.RemateId
+
+    let transporter = nodemailer.createTransport({
+        service:'gmail',
+        auth: {
+            user:process.env.CORREO,
+            pass:process.env.CLAVE
+            }
+        });
     
-    Oferta.create(req.body).then(data =>{
-         res.status(200).json({
-             ok: true,
-             msg: 'Se genero la oferta',
-             data: data
-         })   
-     }).catch(err =>{
-         res.status(400).json({
-             ok:false,
-             msg: 'Error no se pudo generar la Oferta',
-             error: err
-         })
-     })
- }
+    Oferta.findAll({
+        where: { LoteId : lote, RemateId: remate },
+        order: [['valorOferta','DESC']],
+        limit: [1],
+        include:
+            [ {model:Usuario}]
+                }) 
+    .then(data => {
+        let cuerpoCorreo = `<h1>Hola  ${data[0].Usuario.nombre}  </h1>
+        <p>Han superado tu ultima oferta</p>
+        <p>En el lote ${data[0].Usuario.email} </p>`; 
+        
+        let mailOptions = {
+            from: 'Chacras de San Cayetano',
+            to: data[0].Usuario.email,
+            subject: 'Chacras de San Cayetano - Notificacion',
+            html: cuerpoCorreo
+        };
+         if(usuario != data[0].UsuarioId){
+            console.log("entra")
+                transporter.sendMail(mailOptions, function(error, info){
+                    if (error){
+                       console.log("no se envio el correo")
+                    } 
+                    Oferta.create(req.body).then(data =>{
+                         res.status(200).json({
+                            ok: true,
+                            msg: 'Se genero la oferta',
+                            data: data
+                        })
+                    }).catch(err =>{
+                        res.status(400).json({
+                            ok:false,
+                            msg: 'Error no se pudo generar la Oferta',
+                            error: err
+                    })
+                    
+                })
+                          
+             })
+            }
+        }).catch(err =>{
+            res.status(400).json({
+                ok:false,
+                msg: 'Error no se obtubo el maximo',
+                error: err
+            })
+        })
+    }
      exports.listarOfertasCliente = async(req,res)=>{
          const cliente = req.params.cliente
          let dataMax = [];
@@ -89,7 +117,12 @@ exports.altaOferta = async(req, res)=>{
             [ {model:Usuario}]
                 }) 
     .then(data => {
-          res.send(data)
+        res.status(200).json({
+            ok: true,
+            msg: 'oferta max',
+            data: data
+        })   
+         // res.send(data)
         }).catch(err => {
             res.status(404).json({
                 error:err,
