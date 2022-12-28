@@ -27,26 +27,31 @@ exports.altaOferta = async (req,res)=>{
                 [ {model:Usuario}]
                     }) 
         .then(data => {
-            console.log("el data  "+JSON.stringify(data))
-            let cuerpoCorreo = `<h1>Hola  ${data[0].Usuario.nombre}  </h1>
-            <p>Han superado tu última oferta</p>
-            <p>En el lote ${data[0].Usuario.email} </p>`; 
-            
-            let mailOptions = {
-                from: 'Chacras de San Cayetano',
-                to: data[0].Usuario.email,
-                subject: 'Chacras de San Cayetano - Notificacion',
-                html: cuerpoCorreo
-            };
-            
+            console.log("el data  "+JSON.stringify(data))           
             if(usuario != data[0].UsuarioId){
                 console.log("entra")
+                let cuerpoCorreo = `<h1>Hola  ${data[0].Usuario.nombre}  </h1>
+                <p>Han superado tu última oferta</p>
+                <p>En el lote ${data[0].Usuario.email} </p>`; 
+                
+                let mailOptions = {
+                    from: 'Chacras de San Cayetano',
+                    to: data[0].Usuario.email,
+                    subject: 'Chacras de San Cayetano - Notificacion',
+                    html: cuerpoCorreo
+                };
                     transporter.sendMail(mailOptions, function(error, info){
                         if (error){
                         console.log("no se envio el correo")
                         } 
                     })
                 }
+            else{
+                res.status(200).json({
+                    ok:true,
+                    msg: 'Se genero la oferta'
+              })
+            }
             }).catch(err =>{
                 res.status(400).json({
                     ok:false,
