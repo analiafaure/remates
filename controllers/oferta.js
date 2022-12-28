@@ -8,24 +8,17 @@ exports.altaOferta = async (req,res)=>{
     const usuario = req.body.UsuarioId
     const lote = req.body.LoteId
     const remate = req.body.RemateId
-
+    let transporter = nodemailer.createTransport({
+        service:'gmail',
+        auth: {
+            user:process.env.CORREO,
+            pass:process.env.CLAVE
+            }
+        });
+    
     Oferta.create(req.body).then(data =>{
         console.log("Se genero la oferta")
-    }).catch(err =>{
-        res.status(400).json({
-            ok:false,
-            msg: 'Error no se pudo generar la Oferta',
-            error: err
-     })
-    })
-        let transporter = nodemailer.createTransport({
-            service:'gmail',
-            auth: {
-                user:process.env.CORREO,
-                pass:process.env.CLAVE
-                }
-            });
-        
+// se procede a la busqueda de la oferta maxima
         Oferta.findAll({
             where: { LoteId : lote, RemateId: remate },
             order: [['valorOferta','DESC']],
@@ -46,21 +39,29 @@ exports.altaOferta = async (req,res)=>{
                 html: cuerpoCorreo
             };
             
-             if(usuario != data[0].UsuarioId){
+            if(usuario != data[0].UsuarioId){
                 console.log("entra")
                     transporter.sendMail(mailOptions, function(error, info){
                         if (error){
-                           console.log("no se envio el correo")
+                        console.log("no se envio el correo")
                         } 
                     })
-                  }
+                }
             }).catch(err =>{
                 res.status(400).json({
                     ok:false,
-                    msg: 'Error no se pudo generar la Oferta',
+                    msg: 'Error al buscar el maximo',
                     error: err
             })
         })
+    }).catch(err =>{
+        res.status(400).json({
+            ok:false,
+            msg: 'Error no se pudo generar la Oferta',
+            error: err
+     })
+    })      
+       
 }
      exports.listarOfertasCliente = async(req,res)=>{
          const cliente = req.params.cliente
