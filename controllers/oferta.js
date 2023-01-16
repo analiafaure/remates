@@ -16,58 +16,66 @@ exports.altaOferta = async (req,res)=>{
             }
         });
     
-    Oferta.create(req.body).then(data =>{
-        console.log("Se genero la oferta")
-// se procede a la busqueda de la oferta maxima
         Oferta.findAll({
             where: { LoteId : lote, RemateId: remate },
             order: [['valorOferta','DESC']],
             limit: [1],
             include:
-                [ {model:Usuario}]
-                    }) 
-        .then(data => {
-            console.log("el data  "+JSON.stringify(data))           
-            if(usuario != data[0].UsuarioId){
-                console.log("entra")
-                let cuerpoCorreo = `<h1>Hola  ${data[0].Usuario.nombre}  </h1>
-                <p>Han superado tu última oferta</p>
-                <p>En el lote ${data[0].Usuario.email} </p>`; 
+                [ {model:Usuario}, {model:Lote}]
+        }).then(data1=>{
+            Oferta.create(req.body).then(data =>{
                 
-                let mailOptions = {
-                    from: 'Chacras de San Cayetano',
-                    to: data[0].Usuario.email,
-                    subject: 'Chacras de San Cayetano - Notificacion',
-                    html: cuerpoCorreo
-                };
-                    transporter.sendMail(mailOptions, function(error, info){
-                        if (error){
-                        console.log("no se envio el correo")
-                        } 
-                    })
-                }
-            else{
-                res.status(200).json({
-                    ok:true,
-                    msg: 'Se genero la oferta'
-              })
-            }
+                if ( data1.length > 0 && (usuario != data1[0].UsuarioId) 
+                    && (req.body.valorOferta > data1[0].valorOferta )){
+                    
+                        let cuerpoCorreo = `<h1>Hola  ${data1[0].Usuario.nombre} </h1>
+                        <p>Han superado tu última oferta</p>
+                        <p>En el lote <b>${data1[0].Lote.partidaInmobiliaria}</b></p>`; 
+                        
+                        let mailOptions = {
+                            from: 'Chacras de San Cayetano',
+                            to: data1[0].Usuario.email,
+                            subject: 'Chacras de San Cayetano - Notificacion',
+                            html: cuerpoCorreo
+                        };
+                        transporter.sendMail(mailOptions, function(error, info){
+                            if (error){
+                                console.log("no se envio el correo")
+                                res.status(200).json({
+                                    ok:true,
+                                    msg: 'Se genero la oferta'
+                                })
+                            }
+                            else{
+                                res.status(200).json({
+                                    ok:true,
+                                    msg: 'Se genero la oferta'
+                              })
+                            }
+                        })
+                    }
+                    else{
+                        res.status(200).json({
+                            ok:true,
+                            msg: 'Se genero la oferta'
+                        })
+                    }
+                }).catch(err =>{
+                    res.status(400).json({
+                        ok:false,
+                        msg: 'Error al buscar el maximo',
+                        error: err
+                })
             }).catch(err =>{
                 res.status(400).json({
                     ok:false,
-                    msg: 'Error al buscar el maximo',
+                    msg: 'Error no se pudo generar la Oferta',
                     error: err
             })
-        })
-    }).catch(err =>{
-        res.status(400).json({
-            ok:false,
-            msg: 'Error no se pudo generar la Oferta',
-            error: err
-     })
-    })      
-       
+            })      
+        })     
 }
+
      exports.listarOfertasCliente = async(req,res)=>{
          const cliente = req.params.cliente
          let dataMax = [];
@@ -119,12 +127,7 @@ exports.altaOferta = async (req,res)=>{
             [ {model:Usuario}]
                 }) 
     .then(data => {
-        res.status(200).json({
-            ok: true,
-            msg: 'oferta max',
-            data: data
-        })   
-         // res.send(data)
+        res.send(data)
         }).catch(err => {
             res.status(404).json({
                 error:err,
