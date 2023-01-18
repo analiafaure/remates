@@ -184,23 +184,11 @@ exports.cantidadLoteRemate = async(req,res)=>{
                 })
             }
             else{
-                await RemateLote.count({
-                    distinct: true,
-                    col: 'LoteId',
-                    where:{ RemateId : remate}
-                }).then(data => {
-                    res.send({
-                        ok:true,
+                   res.send({
+                        ok:false,
                         data:data,
                         msg: "Lotes sin ofertas"
                     })
-                }).catch(err => {
-                    res.status(404).json({
-                        error:err,
-                         ok:false,
-                        msg:'Error no se pudo mostrar la cantidad'
-                    })
-                })
            } 
         }).catch(err => {
             res.status(404).json({

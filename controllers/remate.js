@@ -138,7 +138,7 @@ exports.lotesAsociadosRemate = async(req,res)=>{
                     data:data
                 })
             }
-            res.send(data)
+            //res.send(data)
         }).catch(err => {
             console.log(err)
             res.status(404).json({
