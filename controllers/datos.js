@@ -19,13 +19,33 @@ console.log("entra al metodo");
       
       // Escucha el evento 'line' que se dispara cuando se lee una línea
       rl.on('line', (line) => {
-        console.log("linea  ");
+        const parts = line.split(',');
         Lote.create({
-            partidaInmobiliaria: line.partidaInmobiliaria,
-            descripcion: line.descripcion,
-            costoInicial: line.costoInicial,
+            partidaInmobiliaria: parts[0],
+            descripcion: parts[1],
+            costoInicial: parts[2],
           })
+      }).then(() => {
+        console.log('Datos insertados correctamente:', row);
+      })
+      .catch((error) => {
+          console.log("error al insertar  "+ error);
+        console.error('Error al insertar datos:', error);
       });
+    })
+    .on('end', () => {
+      console.log('Proceso de carga de datos finalizado.');
+      res.status(200).json({
+          ok:true,
+          msg:'Proceso de carga de datos finalizado.'
+      })    
+    })
+    .catch((error) => {
+      console.log("error  "+error);
+      console.error('Error al sincronizar el modelo con la base de datos:', error);
+    })
+  //})
+  }
    /* fs.access(archivoCSV, fs.constants.F_OK, (err) => {
         if (err) {
             console.log("entro en el error del archivo");
@@ -60,11 +80,4 @@ console.log("entra al metodo");
         })    
       });
     }*/
-  })
-  .catch((error) => {
-    console.log("error  "+error);
-    console.error('Error al sincronizar el modelo con la base de datos:', error);
-  })
-//})
-}
  
