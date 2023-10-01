@@ -9,7 +9,7 @@ console.log("entra al metodo");
   .then(() => {
     console.log("entra al then");
     // Ruta al archivo CSV
-    const archivoCSV = 'datos.csv';
+    const archivoCSV = '../datos.csv';
     fs.access(archivoCSV, fs.constants.F_OK, (err) => {
         if (err) {
           res.writeHead(404, { 'Content-Type': 'text/plain' });
