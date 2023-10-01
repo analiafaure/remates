@@ -15,10 +15,12 @@ console.log("entra al metodo");
           res.writeHead(404, { 'Content-Type': 'text/plain' });
           res.end('El archivo CSV no existe.');
         } else {
+            console.log("entra en el else");
     // Lee el archivo CSV y realiza las inserciones en la base de datos
     fs.createReadStream(archivoCSV)
       .pipe(csv())
       .on('data', (row) => {
+        console.log("row   "+row.partidaInmobiliaria);
         // Inserta una fila en la base de datos utilizando el modelo de Sequelize
         Lote.create({
           partidaInmobiliaria: row.partidaInmobiliaria,
@@ -29,6 +31,7 @@ console.log("entra al metodo");
           console.log('Datos insertados correctamente:', row);
         })
         .catch((error) => {
+            console.log("error al insertar  "+ error);
           console.error('Error al insertar datos:', error);
         });
       })
