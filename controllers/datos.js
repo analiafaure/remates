@@ -9,8 +9,9 @@ console.log("entra al metodo");
   .then(() => {
     console.log("entra al then");
     // Ruta al archivo CSV
-    const archivoCSV = '../datos.csv';
+    const archivoCSV = 'datos.csv';
     console.log("constante  "+archivoCSV);
+    console.log("lala");
     fs.access(archivoCSV, fs.constants.F_OK, (err) => {
         if (err) {
             console.log("entro en el error del archivo");
