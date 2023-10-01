@@ -10,8 +10,10 @@ console.log("entra al metodo");
     console.log("entra al then");
     // Ruta al archivo CSV
     const archivoCSV = '../datos.csv';
+    console.log("constante  "+archivoCSV);
     fs.access(archivoCSV, fs.constants.F_OK, (err) => {
         if (err) {
+            console.log("entro en el error del archivo");
           res.writeHead(404, { 'Content-Type': 'text/plain' });
           res.end('El archivo CSV no existe.');
         } else {
@@ -30,7 +32,7 @@ console.log("entra al metodo");
         .then(() => {
           console.log('Datos insertados correctamente:', row);
         })
-        .catch(() => {
+        .catch((error) => {
             console.log("error al insertar  "+ error);
           console.error('Error al insertar datos:', error);
         });
@@ -44,7 +46,7 @@ console.log("entra al metodo");
       });
     }
   })
-  .catch(() => {
+  .catch((error) => {
     console.log("error  "+error);
     console.error('Error al sincronizar el modelo con la base de datos:', error);
   })
