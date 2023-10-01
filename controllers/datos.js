@@ -4,9 +4,10 @@ const Lote = require('../models').Lote
 
 // Sincroniza el modelo con la base de datos (asegúrate de que la tabla exista)
 exports.cargarLote = async (req,res) =>{
-
+console.log("entra al metodo");
  Lote.sync()
   .then(() => {
+    console.log("entra al then");
     // Ruta al archivo CSV
     const archivoCSV = 'datos.csv';
     fs.access(archivoCSV, fs.constants.F_OK, (err) => {
@@ -41,6 +42,7 @@ exports.cargarLote = async (req,res) =>{
     }
   })
   .catch((error) => {
+    console.log("error  "+error);
     console.error('Error al sincronizar el modelo con la base de datos:', error);
   })
 })
