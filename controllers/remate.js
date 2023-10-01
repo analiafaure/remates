@@ -67,7 +67,7 @@ exports.remateVigente = async(req,res)=>{
         where: { activo : true } 
     }).then(data => {
         data.forEach(element => {
-            if (moment(element.fechaInicio,"YYYY/MM/DD HH:mm").isBefore(dateFormat) && moment(element.fechaFin,"YYYY/MM/DD HH:mm").isAfter(dateFormat) ){
+             if (moment(element.fechaInicio,"YYYY/MM/DD HH:mm").isBefore(dateFormat) && moment(element.fechaFin,"YYYY/MM/DD HH:mm").isAfter(dateFormat) ){
                 rematesVigentes.push(element)
             }
         })
