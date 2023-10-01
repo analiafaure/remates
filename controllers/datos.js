@@ -19,7 +19,12 @@ console.log("entra al metodo");
       
       // Escucha el evento 'line' que se dispara cuando se lee una línea
       rl.on('line', (line) => {
-        console.log("linea  "+ line);
+        console.log("linea  ");
+        Lote.create({
+            partidaInmobiliaria: line.partidaInmobiliaria,
+            descripcion: line.descripcion,
+            costoInicial: line.costoInicial,
+          })
       });
    /* fs.access(archivoCSV, fs.constants.F_OK, (err) => {
         if (err) {
