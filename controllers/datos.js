@@ -1,7 +1,7 @@
 const fs = require('fs');
 const csv = require('csv-parser');
 const Lote = require('../models').Lote
-
+const readline = require('readline');
 // Sincroniza el modelo con la base de datos (asegúrate de que la tabla exista)
 exports.cargarLote = async (req,res) =>{
 console.log("entra al metodo");
@@ -12,7 +12,16 @@ console.log("entra al metodo");
     const archivoCSV = 'datos.csv';
     console.log("constante  "+archivoCSV);
     console.log("lala");
-    fs.access(archivoCSV, fs.constants.F_OK, (err) => {
+    const rl = readline.createInterface({
+        input: fs.createReadStream(archivoCSV),
+        crlfDelay: Infinity, // Reconoce tanto saltos de línea '\n' como '\r\n'
+      });
+      
+      // Escucha el evento 'line' que se dispara cuando se lee una línea
+      rl.on('line', (line) => {
+        console.log("linea  "+ line);
+      });
+   /* fs.access(archivoCSV, fs.constants.F_OK, (err) => {
         if (err) {
             console.log("entro en el error del archivo");
           res.writeHead(404, { 'Content-Type': 'text/plain' });
@@ -45,12 +54,12 @@ console.log("entra al metodo");
             msg:'Proceso de carga de datos finalizado.'
         })    
       });
-    }
+    }*/
   })
   .catch((error) => {
     console.log("error  "+error);
     console.error('Error al sincronizar el modelo con la base de datos:', error);
   })
-})
+//})
 }
  
