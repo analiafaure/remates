@@ -30,7 +30,7 @@ console.log("entra al metodo");
         .then(() => {
           console.log('Datos insertados correctamente:', row);
         })
-        .catch((error) => {
+        .catch(() => {
             console.log("error al insertar  "+ error);
           console.error('Error al insertar datos:', error);
         });
@@ -44,7 +44,7 @@ console.log("entra al metodo");
       });
     }
   })
-  .catch((error) => {
+  .catch(() => {
     console.log("error  "+error);
     console.error('Error al sincronizar el modelo con la base de datos:', error);
   })
