@@ -1,4 +1,10 @@
 partidaInmobiliaria,descripcion,costoInicial
+MZA1-1,superficie: 667.55mt2- 31.47 x 42.43 x 52.82mts,10000000
+MZA1-2,superficie: 667.55mt2- 21.88 x 44.50 x 17.57 x 31.47mts,8000000
+MZA1-3,superficie: 751.00mt2- 18.68 x 55.63 x 15 x 44.50mts,13300000
+MZA1-4,superficie: 675.00mt2- 15 x 45mts,8000000
+MZA1-5,superficie: 675.00mt2- 15 x 45mts,8000000
+MZA1-6,superficie: 662.54mt2- 37.35 x 33.88 x 10.63mts,11500000
 MZA2-1,superficie: 675.00mt2- 15 x 45mts,10000000
 MZA2-2,superficie: 675.00mt2- 15 x 45mts,8000000
 MZA2-3,superficie: 675.00mt2- 15 x 45mts,8000000
@@ -47,86 +53,6 @@ MZA4-13,superficie: 675.00mt2- 15 x 45mts,8000000
 MZA4-14,superficie: 675.00mt2- 15 x 45mts,8000000
 MZA4-15,superficie: 675.00mt2- 15 x 45mts,10000000
 MZA4-16,superficie: 787.50mt2- 15 x 45mts,9000000
-MZA5-1,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA5-2,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA5-3,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA5-4,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA5-5,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA5-6,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA5-7,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA5-8,superficie: 787.50mt2- 15 x 45mts,9000000
-MZA5-9,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA5-10,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA5-11,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA5-12,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA5-13,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA5-14,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA5-15,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA5-16,superficie: 787.50mt2- 15 x 45mts,9000000
-MZA6-1,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA6-2,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA6-3,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA6-4,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA6-5,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA6-6,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA6-7,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA6-8,superficie: 787.50mt2- 15 x 45mts,9000000
-MZA6-9,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA6-10,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA6-11,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA6-12,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA6-13,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA6-14,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA6-15,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA6-16,superficie: 787.50mt2- 15 x 45mts,9000000
-MZA7-1,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA7-2,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA7-3,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA7-4,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA7-5,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA7-6,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA7-7,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA7-8,superficie: 787.50mt2- 15 x 45mts,9000000
-MZA7-9,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA7-10,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA7-11,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA7-12,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA7-13,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA7-14,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA7-15,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA7-16,superficie: 787.50mt2- 15 x 45mts,9000000
-MZA8-1,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA8-2,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA8-3,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA8-4,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA8-5,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA8-6,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA8-7,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA8-8,superficie: 787.50mt2- 15 x 45mts,9000000
-MZA8-9,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA8-10,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA8-11,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA8-12,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA8-13,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA8-14,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA8-15,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA8-16,superficie: 787.50mt2- 15 x 45mts,9000000
-MZA9-1,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA9-2,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA9-3,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA9-4,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA9-5,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA9-6,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA9-7,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA9-8,superficie: 787.50mt2- 15 x 45mts,9000000
-MZA9-9,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA9-10,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA9-11,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA9-12,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA9-13,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA9-14,superficie: 675.00mt2- 15 x 45mts,8000000
-MZA9-15,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA9-16,superficie: 787.50mt2- 15 x 45mts,9000000
 MZA10-1,superficie: 740.94mt2- 55.65mts x 33.15 x 44.70mts,13000000
 MZA10-2,superficie:	740.95mt2- 23.05mts x 46.89mts x 18.51mts x 33.15,13000000
 MZA11-1,superficie: 675.00mt2- 15 x 45mts,10000000
@@ -206,8 +132,6 @@ MZA20-11,superficie: 670.85mt2- 15 x 41.65mts,8000000
 MZA20-12,superficie: 779.27mt2- 18.68mts x 57.51mts x 15.00mts x 46.39mts,8000000
 MZA20-13,superficie: 668.25mt2- 20.68mts x 46.39mts x 34.07mts x 16.61mts,8000000
 MZA20-14,superficie: 668.24mt2- 35.35mts x 34.07mts x 13.01mts x 28.39mts,8000000
-MZA20-15,superficie: 675.00mt2- 15 x 45mts,10000000
-MZA20-16,superficie: 787.50mt2- 15 x 45mts,9000000
 MZA21-1,superficie: 675.00mt2- 15 x 45mts,10000000
 MZA21-2,superficie: 675.00mt2- 15 x 45mts,8000000
 MZA21-3,superficie: 675.00mt2- 15 x 45mts,8000000
