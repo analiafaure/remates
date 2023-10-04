@@ -15,5 +15,6 @@ router.get('/getUsuarioId/:id', validarJWT, ctlUsuario.getUsuarioId);
 router.delete('/eliminarUsuario/:id', validarJWT, ctlUsuario.eliminarUsuario);
 router.get('/listarUsuariosTipo/:tipo',validarJWT, ctlUsuario.listarUsuariosTipo);
 router.get('/clientesRegitroCompleto/:completo', validarJWT, ctlUsuario.clientesRegistroCompleto);
+router.post('/notificaciones',ctlUsuario.notificaciones);
 
 module.exports = router;

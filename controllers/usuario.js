@@ -246,5 +246,84 @@ exports.clientesRegistroCompleto = async(req,res)=>{
            })
        })
 }
-
-
+//funcion para notificar a clientes
+exports.notificaciones = async (req, res) => {
+    let transporter = nodemailer.createTransport({
+        service:'gmail',
+        auth: {
+            user:process.env.CORREO,
+            pass:process.env.CLAVE
+            }
+        });        
+    try {
+      if (!req.body || typeof req.body.destinatario === 'undefined') {
+        return res.status(400).json({ error: 'El campo "destinatario" es obligatorio.' });
+      }
+  
+      const { destinatario, cuerpo } = req.body;
+      let usuarios;
+  
+      if (destinatario !== '2') {
+        usuarios = await Usuario.findAll({
+          where: { primerLogin: destinatario, tipoUsuario: 1 }
+        });
+        try {
+            for (const usuario of usuarios) {
+              const { nombre, email } = usuario;
+        
+              // Configurar el correo electrónico
+              const mailOptions = {
+                from: 'Remates online',
+                to: email,
+                subject: 'Asunto del correo',
+                bcc: [process.env.CORREO_OPERADOR1, process.env.CORREO_OPERADOR2],
+                subject: 'Remates online',
+                text: `Hola ${nombre}, ${cuerpo}`
+              };
+        
+              // Enviar el correo
+              await transporter.sendMail(mailOptions);
+        
+              console.log(`Correo enviado a ${nombre} (${email})`);
+            }
+          } catch (error) {
+            console.error('Error al enviar correos electrónicos:', error);
+          }
+        } else {
+        usuarios = await Usuario.findAll({
+          where: { tipoUsuario: 1 }
+        });
+        try {
+            for (const usuario of usuarios) {
+                const { nombre, email } = usuario;
+        
+                // Configurar el correo electrónico
+                const mailOptions = {
+                from: 'Remates online',
+                to: email,
+                subject: 'Asunto del correo',
+                bcc: [process.env.CORREO_OPERADOR1, process.env.CORREO_OPERADOR2],
+                subject: 'Remates online ',
+                text: `Hola ${nombre}, ${cuerpo}`
+                };
+        
+                // Enviar el correo
+                await transporter.sendMail(mailOptions);
+        
+              console.log(`Correo enviado a ${nombre} (${email})`);
+          }
+        } catch (error) {
+          console.error('Error al enviar correos electrónicos:', error);
+        }
+        return res.status(200).json({ mensaje: 'Notificación enviada a otros destinatarios.' });
+      }
+  
+      res.json({
+        ok: true,
+        data: usuarios
+      });
+    } catch (error) {
+      console.error('Error al obtener usuarios:', error);
+      return res.status(500).json({ error: 'Error interno del servidor.' });
+    }
+  }
