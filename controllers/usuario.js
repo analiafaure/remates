@@ -253,7 +253,11 @@ exports.notificaciones = async (req, res) => {
         auth: {
             user:process.env.CORREO,
             pass:process.env.CLAVE
-            }
+            },
+        tls:{
+             rejectUnauthorized: false
+            }    
+
         });        
     try {
       if (!req.body || typeof req.body.destinatario === 'undefined') {

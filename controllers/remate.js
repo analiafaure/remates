@@ -4,6 +4,7 @@ const RemateLote = require('../models').RemateLote
 const Lote = require('../models').Lote
 const date = new Date()
 const dateFormat =moment(date,"YYYY/MM/DD HH:mm")
+const { Op } = require('sequelize');
     
 exports.altaRemate = async(req, res)=>{
     const { descripcion, fechaInicio, fechaFin, costoPuja, incrementoPuja,topePuja } = req.body
@@ -61,24 +62,28 @@ exports.listarRemates = async(req,res)=>{
 }
 
 exports.remateVigente = async(req,res)=>{
-    let rematesVigentes=[]
+    try {
+        const rematesVigentes = await Remate.findAll({
+          where: {
+            activo: true,
+            fechaInicio: {
+              [Op.lte]: moment().toDate(), // Fecha y hora actual
+            },
+            fechaFin: {
+              [Op.gt]: moment().toDate(), // Fecha y hora actual
+            },
+          },
+        });
     
-    Remate.findAll({
-        where: { activo : true } 
-    }).then(data => {
-        data.forEach(element => {
-             if (moment(element.fechaInicio,"YYYY/MM/DD HH:mm").isBefore(dateFormat) && moment(element.fechaFin,"YYYY/MM/DD HH:mm").isAfter(dateFormat) ){
-                rematesVigentes.push(element)
-            }
-        })
-        res.send(rematesVigentes)
-    }).catch(err => {
-        res.status(404).json({
-            error:err,
-            ok:false,
-            msg:'Error no se pudo mostrar los remates'
-        })
-    })
+        res.json(rematesVigentes);
+    }catch (error) {
+        console.error('Error al buscar remates vigentes:', error);
+        res.status(500).json({
+          error: error.message,
+          ok: false,
+          msg: 'Error al buscar remates vigentes',
+        });
+      }    
 }
 
 exports.remateProximo = async (req, res) =>{
