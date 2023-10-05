@@ -2,8 +2,7 @@ const Usuario = require('../models').Usuario
 const bcrypt  = require('bcryptjs')
 const nodemailer = require('nodemailer')
 const helpers = require('../config/helpers')
-const { param } = require('../routes')
-
+    
 exports.altaUsuario = async(req, res)=>{
     let { nombre, apellido, email, clave, tipoUsuario, dni } = req.body
     let cuerpoCorreo = `<h1>Hola  ${nombre}  </h1>
@@ -253,10 +252,11 @@ exports.notificaciones = async (req, res) => {
         auth: {
             user:process.env.CORREO,
             pass:process.env.CLAVE
-            },
+            }
+            /*,
         tls:{
              rejectUnauthorized: false
-            }    
+            } */   
 
         });        
     try {
@@ -264,9 +264,9 @@ exports.notificaciones = async (req, res) => {
         return res.status(400).json({ error: 'El campo "destinatario" es obligatorio.' });
       }
   
-      const { destinatario, cuerpo } = req.body;
+      const { destinatario, cuerpo, cuerpo1, cuerpo2 } = req.body;
       let usuarios;
-  
+      
       if (destinatario !== '2') {
         usuarios = await Usuario.findAll({
           where: { primerLogin: destinatario, tipoUsuario: 1 }
@@ -282,7 +282,10 @@ exports.notificaciones = async (req, res) => {
                 subject: 'Asunto del correo',
                 bcc: [process.env.CORREO_OPERADOR1, process.env.CORREO_OPERADOR2],
                 subject: 'Remates online',
-                text: `Hola ${nombre}, ${cuerpo}`
+                text: `Hola ${nombre}, 
+                        ${cuerpo},
+                        ${cuerpo1},
+                        ${cuerpo2}`
               };
         
               // Enviar el correo
@@ -308,7 +311,11 @@ exports.notificaciones = async (req, res) => {
                 subject: 'Asunto del correo',
                 bcc: [process.env.CORREO_OPERADOR1, process.env.CORREO_OPERADOR2],
                 subject: 'Remates online ',
-                text: `Hola ${nombre}, ${cuerpo}`
+                text: `Hola ${nombre},
+                         ${cuerpo},
+                         ${cuerpo1},
+                         ${cuerpo2}
+                         `
                 };
         
                 // Enviar el correo
