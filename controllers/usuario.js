@@ -268,8 +268,9 @@ exports.notificaciones = async (req, res) => {
       let usuarios;
       
       if (destinatario !== '2') {
+        console.log("entro en el if")
         usuarios = await Usuario.findAll({
-          where: { primerLogin: destinatario, tipoUsuario: 1 }
+          where: { primerLogin: destinatario }
         });
         try {
             for (const usuario of usuarios) {
