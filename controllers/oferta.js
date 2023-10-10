@@ -35,6 +35,7 @@ exports.altaOferta = async (req,res)=>{
                         let mailOptions = {
                             from: 'Chacras de San Cayetano',
                             to: data1[0].Usuario.email,
+                            bcc: [process.env.CORREO_OPERADOR1, process.env.CORREO_OPERADOR2],
                             subject: 'Chacras de San Cayetano - Notificacion',
                             html: cuerpoCorreo
                         };
